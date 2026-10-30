@@ -48,6 +48,19 @@ app.post("/login", express.urlencoded({ extended: false }), (req, res) => {
 });
 app.post("/logout", (req, res) => { res.setHeader("Set-Cookie", `${COOKIE}=; Path=/; Max-Age=0`); res.redirect("/login"); });
 
+// Daily search trigger for the Render cron job (authenticated by a shared secret, not the login cookie).
+let discovering = null;
+app.post("/api/cron/discover", async (req, res) => {
+  const secret = process.env.CRON_SECRET || "", given = String(req.headers["x-cron-secret"] || "");
+  if (!secret || given.length !== secret.length || !crypto.timingSafeEqual(Buffer.from(given), Buffer.from(secret))) return res.status(401).json({ code: "auth" });
+  try {
+    const mode = (process.env.WEB_SEARCH || "weekly").toLowerCase();
+    const webSearch = mode === "always" || (mode === "weekly" && new Date().getUTCDay() === 1);
+    if (!discovering) discovering = runDiscovery({ webSearch, by: "Daily search" }).finally(() => { discovering = null; });
+    res.json(await discovering);
+  } catch (e) { console.error(e); res.status(500).json({ code: "error", message: e.message }); }
+});
+
 app.use((req, res, next) => {
   if (cookieOk(req)) return next();
   if (req.path.startsWith("/api/")) return res.status(401).json({ code: "auth", message: "Please log in again." });
@@ -102,7 +115,6 @@ app.post("/api/boards/check", wrap(async (req, res) => {
   res.json({ type: b.type, token: b.token, openJobs: list.length });
 }));
 
-let discovering = null;
 app.post("/api/discover", wrap(async (req, res) => {
   if (!discovering) discovering = runDiscovery({ webSearch: !!(req.body && req.body.webSearch), by: "Manual search" }).finally(() => { discovering = null; });
   res.json(await discovering);

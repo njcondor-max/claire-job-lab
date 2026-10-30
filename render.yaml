@@ -35,6 +35,6 @@ services:
     runtime: node
     schedule: "0 12 * * 1-5"        # 12:00 UTC weekdays = 5-6am Denver
     buildCommand: npm install
-    startCommand: node discover.js
+    startCommand: node cron.js
     envVars:
       - fromGroup: claire-job-lab-settings

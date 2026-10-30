@@ -22,7 +22,7 @@ Rough costs: about 5¢ per application kit (Sonnet), about 0.2¢ to score one jo
 2. **GitHub:** create a new **private** repo and push this folder to it.
 3. **Render:** New → **Blueprint** → choose the repo. Render reads `render.yaml` and creates:
    - `claire-job-lab` (the web app; the **free** plan sleeps when idle, so the first load takes about 30–60s; switch to `starter` for always-on)
-   - `claire-job-lab-daily-search` (cron job, weekdays at 12:00 UTC, which is 5–6am in Denver)
+   - `claire-job-lab-daily-search` (cron job, weekdays at 12:00 UTC, which is 5–6am in Denver). It runs `node cron.js`, which calls the web app's `/api/cron/discover` endpoint using `CRON_SECRET` (set the same value on both services).
 4. When Render asks, fill in `ANTHROPIC_API_KEY`, `APP_PASSWORD` (the password you'll give Claire), and `DATABASE_URL`: the **Internal Database URL** of your existing Render Postgres (Dashboard → your database → Connect). Use the External URL if the database is in a different region. The Lab keeps its tables in their own `joblab` schema, so it never touches your other app's tables.
 5. Open the web app's URL, log in, and send Claire the link and password.
 
