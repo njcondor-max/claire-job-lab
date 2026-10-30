@@ -23,8 +23,7 @@ Rough costs: about 5¢ per application kit (Sonnet), about 0.2¢ to score one jo
 3. **Render:** New → **Blueprint** → choose the repo. Render reads `render.yaml` and creates:
    - `claire-job-lab` (the web app; the **free** plan sleeps when idle, so the first load takes about 30–60s; switch to `starter` for always-on)
    - `claire-job-lab-daily-search` (cron job, weekdays at 12:00 UTC, which is 5–6am in Denver)
-   - `claire-job-lab-db` (Postgres, basic-256mb)
-4. When Render asks, fill in `ANTHROPIC_API_KEY` and `APP_PASSWORD` (the password you'll give Claire).
+4. When Render asks, fill in `ANTHROPIC_API_KEY`, `APP_PASSWORD` (the password you'll give Claire), and `DATABASE_URL`: the **Internal Database URL** of your existing Render Postgres (Dashboard → your database → Connect). Use the External URL if the database is in a different region. The Lab keeps its tables in their own `joblab` schema, so it never touches your other app's tables.
 5. Open the web app's URL, log in, and send Claire the link and password.
 
 On first boot the database is seeded from `seed.json`: her master resume, starter preferences (she confirms these on first login), the 15 verified jobs from Oct 30, and 7 watched companies.
@@ -36,6 +35,7 @@ On first boot the database is seeded from `seed.json`: her master resume, starte
 | `WEB_SEARCH` | `weekly` | `weekly` (Mondays), `always` (every run), or `off`. The board watch always runs. |
 | `MODEL_DEFAULT` / `MODEL_QUICK` | `claude-sonnet-5-5` / `claude-haiku-5-5` | Models for kits and drafts, and for scoring |
 | `APP_PASSWORD` | — | Login password |
+| `DB_SCHEMA` | `joblab` | Postgres schema the Lab's tables live in |
 
 ## How job discovery works
 - **Watched companies** (free): every weekday the cron job reads the official public job-board APIs of the companies on the watch list (Greenhouse, Lever, Ashby). It filters for her titles and locations, skips duplicates, scores each new job with Claude, and marks jobs that have left the board as closed. Claire can add companies in Lab settings by pasting a careers link.

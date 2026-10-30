@@ -1,10 +1,7 @@
 # Render Blueprint: New → Blueprint → pick this repo.
-# Creates the web app, a weekday-morning job search, and a small Postgres database.
-databases:
-  - name: claire-job-lab-db
-    plan: basic-256mb
-    databaseName: joblab
-    user: joblab
+# Creates the web app and a weekday-morning job search. Uses your EXISTING Render Postgres:
+# paste its connection URL into DATABASE_URL when Render asks. All tables go in a separate
+# "joblab" schema, so nothing touches your other app's tables.
 
 envVarGroups:
   - name: claire-job-lab-settings
@@ -12,6 +9,8 @@ envVarGroups:
       - key: ANTHROPIC_API_KEY      # paste your Claude Console API key when Render asks
         sync: false
       - key: APP_PASSWORD           # the password you'll give Claire
+        sync: false
+      - key: DATABASE_URL           # Internal Database URL of your existing Render Postgres
         sync: false
       - key: SESSION_SECRET
         generateValue: true
@@ -29,10 +28,6 @@ services:
     startCommand: node server.js
     healthCheckPath: /healthz
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: claire-job-lab-db
-          property: connectionString
       - fromGroup: claire-job-lab-settings
 
   - type: cron
@@ -42,8 +37,4 @@ services:
     buildCommand: npm install
     startCommand: node discover.js
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: claire-job-lab-db
-          property: connectionString
       - fromGroup: claire-job-lab-settings
