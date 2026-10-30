@@ -130,4 +130,7 @@ app.get("/vendor/pdf.worker.js", (q, r) => r.sendFile(nm("pdfjs-dist/build/pdf.w
 app.use(express.static(path.join(__dirname, "public"), { index: false }));
 
 const PORT = process.env.PORT || 3000;
-store.init().then(() => app.listen(PORT, () => console.log(`Claire's Job Lab on :${PORT}`))).catch(e => { console.error(e); process.exit(1); });
+store.init().then(() => app.listen(PORT, () => {
+  console.log(`Claire's Job Lab on :${PORT}`);
+  console.log(`Storage: ${process.env.DATABASE_URL ? "Postgres (schema " + (process.env.DB_SCHEMA || "joblab") + ")" : "LOCAL FILE — set DATABASE_URL!"} · Claude key: ${process.env.ANTHROPIC_API_KEY ? "set" : "MISSING"} · Password: ${PASSWORD ? "set" : "MISSING"} · Budget: $${process.env.BUDGET_USD || 20}/mo`);
+})).catch(e => { console.error(e); process.exit(1); });
