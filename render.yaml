@@ -1,0 +1,49 @@
+# Render Blueprint: New → Blueprint → pick this repo.
+# Creates the web app, a weekday-morning job search, and a small Postgres database.
+databases:
+  - name: claire-job-lab-db
+    plan: basic-256mb
+    databaseName: joblab
+    user: joblab
+
+envVarGroups:
+  - name: claire-job-lab-settings
+    envVars:
+      - key: ANTHROPIC_API_KEY      # paste your Claude Console API key when Render asks
+        sync: false
+      - key: APP_PASSWORD           # the password you'll give Claire
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: BUDGET_USD             # hard monthly cap on Claude API spend
+        value: "20"
+      - key: WEB_SEARCH             # weekly | always | off  (broad Claude web search; board watch always runs)
+        value: weekly
+
+services:
+  - type: web
+    name: claire-job-lab
+    runtime: node
+    plan: free                      # free sleeps when idle (first load ~30-60s). Use "starter" for always-on.
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: claire-job-lab-db
+          property: connectionString
+      - fromGroup: claire-job-lab-settings
+
+  - type: cron
+    name: claire-job-lab-daily-search
+    runtime: node
+    schedule: "0 12 * * 1-5"        # 12:00 UTC weekdays = 5-6am Denver
+    buildCommand: npm install
+    startCommand: node discover.js
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: claire-job-lab-db
+          property: connectionString
+      - fromGroup: claire-job-lab-settings

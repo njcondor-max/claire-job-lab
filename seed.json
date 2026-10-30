@@ -1,0 +1,973 @@
+[
+ {
+  "coll": "jobs",
+  "id": "job-auto-new-relic-0",
+  "data": {
+   "company": "New Relic",
+   "title": "Senior Technical Program Manager - Security & Identity",
+   "location": "Boulder, CO (plus 16 other US cities); remote eligible",
+   "workMode": "Remote",
+   "salary": "$164,000 - $202,000 USD (Estimated Base Pay Range)",
+   "salaryMin": 164000,
+   "salaryMax": 202000,
+   "url": "https://job-boards.greenhouse.io/newrelic/jobs/5316503008",
+   "source": "Greenhouse",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Technical Program Manager",
+   "industry": "Software / Observability",
+   "requirements": [
+    "8+ years on a software development team as a TPgM or engineering manager",
+    "6+ years of project and program management",
+    "6+ years delivering products against plan in fast-paced, distributed, ambiguous environments",
+    "BS in computer science/engineering or equivalent experience",
+    "Senior-level understanding of cloud, software and systems development lifecycles",
+    "Able to facilitate meetings from small groups to 100+ people",
+    "Defines metrics/KPIs and drives issue resolution across the org"
+   ],
+   "niceToHave": [
+    "Enterprise security and/or compliance program experience",
+    "Understanding of authentication protocols, API security and cloud architecture",
+    "Experience with remote/distributed teams",
+    "High-growth company experience"
+   ],
+   "summary": "Leads cross-functional security and identity programs from planning through delivery, owning schedules, risks, dependencies and metrics. Focus areas include customer IAM adoption, security compliance, sensitive-data protection and vulnerability tracking across distributed engineering teams.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 48,
+    "why": "Strong program-delivery story (29-module redesign, KPIs, exec reporting), and her EE degree covers the technical-degree bar. But this is a senior security-platform role asking for 8+ years as a TPgM \u2014 a real stretch at ~5 years.",
+    "gaps": [
+     "8+ years as TPgM/engineering manager",
+     "Security, identity or compliance program experience",
+     "Deep cloud/systems architecture"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "new-relic|senior-technical-program-manager-security-identity|boulder-co-plus-16-other-us-cities-remote-eligible",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Greenhouse (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-runpod-1",
+  "data": {
+   "company": "Runpod",
+   "title": "Technical Program Manager (Software Engineer)",
+   "location": "Remote, USA",
+   "workMode": "Remote",
+   "salary": "($140,000 - $165,000)",
+   "salaryMin": 140000,
+   "salaryMax": 165000,
+   "url": "https://jobs.ashbyhq.com/runpod/06046760-4649-4821-acdf-0f89c54f88b8",
+   "source": "Ashby",
+   "postedDate": null,
+   "seniority": "Mid",
+   "category": "Technical Program Manager",
+   "industry": "AI cloud infrastructure",
+   "requirements": [
+    "3+ years in technical program management or software/infrastructure engineering on cloud products",
+    "Hands-on experience with production distributed systems (scheduling, autoscaling, load balancing)",
+    "Working knowledge of compute, networking, storage, containers and multi-region architecture",
+    "Experience with observability and incident response (metrics, logging, tracing, SLOs)",
+    "Track record delivering programs across 3+ cross-functional teams from planning to launch",
+    "Strong quantitative skills to turn system and cost data into recommendations",
+    "Solid understanding of the SDLC and strong written/verbal communication"
+   ],
+   "niceToHave": [
+    "AI/ML developer platform or GPU/cloud infrastructure experience",
+    "Startup experience",
+    "Technical degree in CS or engineering"
+   ],
+   "summary": "Leads complex cross-functional programs for Runpod's GPU cloud platform, covering planning, dependencies, risk management and launch readiness. Works with engineering, SRE, product, data, supply and data center teams on systems that schedule and run GPU workloads.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 52,
+    "why": "She has the cross-team delivery track record and SDLC fluency they want. The role is very infrastructure-heavy (scheduling, autoscaling, multi-region), which isn't shown on her resume.",
+    "gaps": [
+     "Hands-on distributed systems / cloud infrastructure",
+     "Observability and incident response (SLOs, tracing)",
+     "GPU/AI infrastructure background"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "runpod|technical-program-manager-software-engineer|remote-usa",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Ashby (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-lyra-health-2",
+  "data": {
+   "company": "Lyra Health",
+   "title": "Sr. Technical Program Manager",
+   "location": "Remote, United States",
+   "workMode": "Remote",
+   "salary": "$114,000 - $157,000 a year",
+   "salaryMin": 114000,
+   "salaryMax": 157000,
+   "url": "https://jobs.lever.co/lyrahealth/aa8cbe55-b017-43d9-80b4-feecc2ef17a2",
+   "source": "Lever",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Technical Program Manager",
+   "industry": "Healthtech / Mental health care",
+   "requirements": [
+    "6+ years of technical program or project management",
+    "Strong technical fluency in systems, integrations and platform functions",
+    "Excellent communication across varied audiences and technical levels",
+    "Expert planning, organization, multitasking and execution",
+    "Practitioner of agile project management methodologies",
+    "Proficiency with ticketing systems such as Jira, Zendesk or ServiceNow",
+    "Analytics experience and a customer-centric mindset"
+   ],
+   "niceToHave": [
+    "Startup and/or healthcare experience",
+    "Using emerging AI tools to improve program delivery"
+   ],
+   "summary": "Acts as the main bridge between engineering and business partners on strategic initiatives and complex development efforts. Owns planning, execution and delivery of cross-functional work while building clearer communication and scalable processes.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 76,
+    "why": "Agile practitioner, Jira power user, healthtech experience at Viecure, and daily AI-assisted delivery all line up with what Lyra lists, including their 'nice to haves'. Main stretch is their 6+ years ask against her ~5.",
+    "gaps": [
+     "6+ years of TPM/PM (she has ~5)",
+     "Systems-integration depth",
+     "Analytics experience not explicit"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "lyra-health|sr-technical-program-manager|remote-united-states",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Lever (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-wasabi-technologies-3",
+  "data": {
+   "company": "Wasabi Technologies",
+   "title": "Technical program manager",
+   "location": "United States of America (remote)",
+   "workMode": "Remote",
+   "salary": "Base Salary: $120,000\u2013$140,000",
+   "salaryMin": 120000,
+   "salaryMax": 140000,
+   "url": "https://job-boards.greenhouse.io/wasabi/jobs/5454019008",
+   "source": "Greenhouse",
+   "postedDate": null,
+   "seniority": "Mid",
+   "category": "Technical Program Manager",
+   "industry": "Cloud storage",
+   "requirements": [
+    "2+ years of program management focused on software and/or hardware deployments",
+    "Working knowledge of common AI platforms applied to program management",
+    "Track record coordinating multiple internal teams to deliver new products or services",
+    "Proficiency with Agile methods, Jira, and SaaS/IaaS cloud models",
+    "Strong communication and stakeholder management, including clear status reporting",
+    "Bachelor's degree in a technical or business field"
+   ],
+   "niceToHave": [
+    "PMP, advanced PM or Lean certifications",
+    "Experience working with security and compliance teams"
+   ],
+   "summary": "Partners with engineering and operations to keep projects on schedule using Agile practices, building plans, tracking progress and flagging risks. Also manages migration efforts and ISO 27001 audit follow-ups while reporting to technical and non-technical stakeholders.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 84,
+    "why": "Squarely in range: 2+ years of program management, Agile + Jira, coordinating multiple teams, and they specifically want someone who applies AI tools to program management \u2014 that's a line on her resume. Technical bachelor's covered by her EE degree.",
+    "gaps": [
+     "Cloud storage / IaaS domain knowledge",
+     "PMP or Lean certification (nice to have)"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "wasabi-technologies|technical-program-manager|united-states-of-america-remote",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Greenhouse (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-xcures-4",
+  "data": {
+   "company": "xCures",
+   "title": "Technical Program Manager (TPM)",
+   "location": "Remote (United States)",
+   "workMode": "Remote",
+   "salary": "$115,000 - $145,000",
+   "salaryMin": 115000,
+   "salaryMax": 145000,
+   "url": "https://ats.rippling.com/xcures-inc/jobs/d7d51528-380c-43f0-a659-c42c46a80cfe",
+   "source": "Rippling",
+   "postedDate": null,
+   "seniority": "Mid",
+   "category": "Technical Program Manager",
+   "industry": "Healthtech / Oncology data and AI",
+   "requirements": [
+    "Bachelor's degree (technical, healthcare or data field preferred)",
+    "3-5+ years in technical product, program or product operations roles at high-growth tech companies",
+    "Track record leading complex cross-functional initiatives from definition to delivery",
+    "Experience working with both engineering and customer-facing teams",
+    "Technical acumen with APIs, data pipelines, cloud infrastructure or AI/ML",
+    "Deep understanding of agile execution and tooling",
+    "Comfort defining processes and enforcing quality standards",
+    "Existing US work authorization (no sponsorship)"
+   ],
+   "niceToHave": [
+    "Advanced degree",
+    "HealthTech and/or AI background",
+    "Enterprise SaaS delivery experience",
+    "Scripting, automation or data analysis/visualization skills"
+   ],
+   "summary": "Owns the systems, tools and processes behind product delivery, blending program management, product operations and cross-functional execution. Covers requirements, documentation, customer onboarding and delivery metrics so engineering, data science and customer teams ship reliably at scale.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 85,
+    "why": "Oncology data + AI company \u2014 her Viecure platform work across product and clinical teams is directly relevant, and the 3\u20135 year range fits. They want someone who defines process and enforces quality standards, which matches her 'standing up Agile where none exists' story.",
+    "gaps": [
+     "Hands-on APIs / data pipelines / ML tooling",
+     "Scripting or data analysis skills"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "xcures|technical-program-manager-tpm|remote-united-states",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Rippling (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-microsoft-5",
+  "data": {
+   "company": "Microsoft",
+   "title": "Technical Program Manager",
+   "location": "Remote, United States",
+   "workMode": "Remote",
+   "salary": "USD $119,800 - $234,700 per year (US base); USD $160,200 - $261,000 per year (SF Bay Area / NYC metro)",
+   "salaryMin": 119800,
+   "salaryMax": 234700,
+   "url": "https://www.builtincolorado.com/job/technical-program-manager/11955601",
+   "source": "Built In Colorado",
+   "postedDate": null,
+   "seniority": "Mid",
+   "category": "Technical Program Manager",
+   "industry": "Enterprise software / AI (US Commercial Industries, Office of the CTO)",
+   "requirements": [
+    "Bachelor's degree and 4+ years in engineering, product/technical program management, data analysis or product development (or equivalent)",
+    "2+ years managing cross-functional and/or cross-team projects",
+    "Drive large cross-organizational programs from concept through delivery",
+    "Partner across engineering, product, security, design and field teams",
+    "Use data, telemetry and AI-driven insights to inform decisions",
+    "Lead business cases, risk management and executive alignment",
+    "Microsoft cannot sponsor a work visa for this role"
+   ],
+   "niceToHave": [
+    "8+ years relevant experience and 6+ years managing cross-team projects",
+    "1+ year reading or writing code",
+    "Experience in industry verticals such as healthcare/life sciences, financial services or retail",
+    "Experience supporting a sales organization"
+   ],
+   "summary": "Leads large cross-organizational technical programs that connect customers' industry business problems to Microsoft AI solutions, from strategy through delivery. Works with engineering, product, security, customers and executives to set roadmaps, manage risk and track outcomes.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 72,
+    "why": "Meets the 4+ years and cross-team program bar, and leading a 25+ engineer redesign with exec-level risk reporting is the right kind of evidence. Microsoft's wide band means level placement will matter; data/telemetry-driven work is less visible on her resume.",
+    "gaps": [
+     "Data/telemetry-driven decision making",
+     "Coding experience (preferred)",
+     "Business case ownership"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "microsoft|technical-program-manager|remote-united-states",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Built In Colorado (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-berrydunn-6",
+  "data": {
+   "company": "BerryDunn",
+   "title": "Technical Project Manager / Scrum Master",
+   "location": "US-Remote (or a BerryDunn office)",
+   "workMode": "Remote",
+   "salary": "$90,000 to $140,000",
+   "salaryMin": 90000,
+   "salaryMax": 140000,
+   "url": "https://careers-berrydunn.icims.com/jobs/3867/technical-project-manager---scrum-master/job",
+   "source": "iCIMS",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Technical Project Manager",
+   "industry": "Consulting / Healthcare data and analytics",
+   "requirements": [
+    "5+ years leading enterprise data management, integration or analytics technical projects",
+    "Run multiple concurrent projects using hybrid Agile (Scrum) and traditional methods",
+    "Own project plans, schedules, roadmaps, risks, dependencies and resources",
+    "Facilitate Scrum ceremonies (sprint planning, stand-ups, retros, demos)",
+    "Oversee the full SDLC and requirements management",
+    "SQL-based data analysis/validation skills to work with data engineers",
+    "Hands-on project management in Jira",
+    "Bachelor's degree; up to 25% travel"
+   ],
+   "niceToHave": [
+    "Healthcare, Medicaid, public health or human services data experience",
+    "CSM, PSM or PMP certification",
+    "Atlassian/Jira administration experience",
+    "HIPAA and data governance knowledge",
+    "Cloud data platform familiarity"
+   ],
+   "summary": "Leads multiple healthcare data and systems technology projects, blending Agile/Scrum facilitation with traditional project control and technical oversight. Also manages client relationships, coordinates with data engineering teams and mentors junior staff.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 66,
+    "why": "Scrum facilitation, running concurrent projects, Jira and full-SDLC ownership all match well. The core of the role is enterprise data and analytics projects with SQL validation, which she doesn't show.",
+    "gaps": [
+     "Enterprise data management / analytics projects",
+     "SQL",
+     "CSM/PSM/PMP certification",
+     "Up to 25% travel"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "berrydunn|technical-project-manager-scrum-master|us-remote-or-a-berrydunn-office",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on iCIMS (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-judi-health-7",
+  "data": {
+   "company": "Judi Health",
+   "title": "Senior Project Manager",
+   "location": "Denver, CO (also Charlotte, NC; New York, NY)",
+   "workMode": "Hybrid",
+   "salary": "Denver, CO: $108,000 - $135,000 USD (New York: $117,600 - $147,000; Charlotte: $98,000 - $122,500)",
+   "salaryMin": 108000,
+   "salaryMax": 135000,
+   "url": "https://job-boards.greenhouse.io/judihealth/jobs/5382755008",
+   "source": "Greenhouse",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Senior Project Manager",
+   "industry": "Healthtech / Pharmacy and health benefits administration",
+   "requirements": [
+    "Bachelor's degree in a related field",
+    "5+ years of project management, including 2+ in a senior or lead role",
+    "Experience managing complex cross-functional projects in fast-paced settings",
+    "Strong leadership, communication and stakeholder management",
+    "Proficiency with Jira, Confluence and Smartsheet",
+    "Deep understanding of Agile in compliance-driven environments",
+    "Able to manage multiple priorities and influence without authority",
+    "Hybrid schedule, at least 3 days per week in office"
+   ],
+   "niceToHave": [
+    "PMP or equivalent certification (strongly preferred)",
+    "Healthcare, PBM or health tech experience",
+    "Mentoring junior project managers"
+   ],
+   "summary": "Leads complex cross-functional technology initiatives from inception through delivery, keeping them aligned with business goals, compliance standards and Agile practices. Acts as the liaison between business and technical teams and mentors Associate Project Managers.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 82,
+    "why": "Denver hybrid, healthtech, and a senior PM role built around Agile, Jira and cross-functional delivery \u2014 very close to her Viecure work. She meets the 5+ years and leads complex programs today.",
+    "gaps": [
+     "PMP strongly preferred",
+     "Confluence and Smartsheet not listed on resume",
+     "PBM / pharmacy benefits domain"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "judi-health|senior-project-manager|denver-co-also-charlotte-nc-new-york-ny",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Greenhouse (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-cleo-8",
+  "data": {
+   "company": "Cleo",
+   "title": "Senior Project Manager",
+   "location": "Remote (US)",
+   "workMode": "Remote",
+   "salary": "Compensation Range - $110,000 - $130,000",
+   "salaryMin": 110000,
+   "salaryMax": 130000,
+   "url": "https://job-boards.greenhouse.io/cleo/jobs/4730980005",
+   "source": "Greenhouse",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Senior Project Manager",
+   "industry": "Software / Cloud B2B integration",
+   "requirements": [
+    "Bachelor's in CS, MIS or related field",
+    "5+ years of project management experience",
+    "Experience delivering cloud-based technology solutions",
+    "Managing resources, schedules and budgets in PPM tools",
+    "Running multiple customer projects concurrently",
+    "Strong stakeholder management and executive presentation skills",
+    "Approximately 15% travel"
+   ],
+   "niceToHave": [
+    "PMP certification",
+    "EDI, MFT or data movement experience",
+    "B2B integration experience",
+    "Interest in applying AI to project management and PMO practices"
+   ],
+   "summary": "Owns customer-facing technology implementation projects end to end, covering scope, schedule, budget, quality and risk. Coordinates executives, clients and implementation engineers while helping build AI-enabled project management workflows.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 72,
+    "why": "Running many customer projects at once maps to her 30+ King Tide client engagements, and she delivers cloud software today. Budget/PPM tool ownership and B2B integration domain aren't on her resume.",
+    "gaps": [
+     "Budget management in PPM tools",
+     "EDI/MFT/B2B integration",
+     "PMP (nice to have)",
+     "~15% travel"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "cleo|senior-project-manager|remote-us",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Greenhouse (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-enverus-9",
+  "data": {
+   "company": "Enverus",
+   "title": "Senior Project Manager - 26409",
+   "location": "Austin, TX per ATS (Built In Colorado also lists Centennial, CO, 80112)",
+   "workMode": "Unknown",
+   "salary": "$85,000-$130,000",
+   "salaryMin": 85000,
+   "salaryMax": 130000,
+   "url": "https://jobs.jobvite.com/enverus/job/oPwXAfwC",
+   "source": "Jobvite",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Senior Project Manager",
+   "industry": "Energy SaaS / Data analytics",
+   "requirements": [
+    "5+ years of professional services project management (integrations, data solutions or IT strategy)",
+    "MS Project and MS Office proficiency",
+    "Manage client expectations, escalations and mitigation",
+    "Guide technical and functional teams to delivery",
+    "Manage conflict and negotiate scope",
+    "Comfort in fast-paced, ambiguous environments",
+    "Strong communication across business, technical and executive audiences"
+   ],
+   "niceToHave": [
+    "Consulting/professional services or client-facing PM background",
+    "Utilities or energy experience",
+    "Mentoring other project managers",
+    "PMP or CAPM certification"
+   ],
+   "summary": "Leads medium-to-large software implementation projects, including AutoCAD-based design and ERP/EAM/GIS integrations, mainly for utility, telecom and government clients. Owns schedules, budgets, risks and delivery while bridging business and technical teams.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 64,
+    "why": "Client-facing delivery, escalations and scope negotiation fit her agency background at King Tide. It's a professional-services PM role in energy data, and the location is unclear (Austin vs. Centennial).",
+    "gaps": [
+     "MS Project",
+     "Energy / utilities domain",
+     "Confirm Colorado location"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "enverus|senior-project-manager-26409|austin-tx-per-ats-built-in-colorado-also-lists-centennial-co-80112",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Jobvite (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-vynca-10",
+  "data": {
+   "company": "Vynca",
+   "title": "Senior Project Manager (Strategic Implementation)",
+   "location": "Remote; applicants considered in CA, GA, TX, AZ, CO, FL, IL, NV, NC, OR, UT, WA",
+   "workMode": "Remote",
+   "salary": "120K-140K Annually",
+   "salaryMin": 120000,
+   "salaryMax": 140000,
+   "url": "https://jobs.ashbyhq.com/vynca/d2c3107d-fe8a-4301-9fae-7528ddcf49cc",
+   "source": "Ashby",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Senior Project Manager",
+   "industry": "Healthtech / Value-based care",
+   "requirements": [
+    "Bachelor's in business, healthcare administration, operations or related field",
+    "5-8 years of project management, including complex value-based initiatives at a health-tech startup",
+    "Experience implementing new markets, contracts or lines of business",
+    "Working knowledge of value-based care and payment program operations",
+    "Track record building processes, structure and tools from scratch",
+    "Cross-functional leadership and influencing without authority",
+    "Executive presence for senior leadership presentations",
+    "PMP certification (listed as required)"
+   ],
+   "niceToHave": [
+    "Advanced degree",
+    "Lean/Six Sigma or process-improvement knowledge",
+    "HIPAA and payer contracting knowledge",
+    "Startup or high-growth experience"
+   ],
+   "summary": "Owns end-to-end execution of new market launches, contract implementations and strategic initiatives from kickoff through go-live and stabilization. Builds governance, process and reporting for a repeatable implementation function at a value-based care startup.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 50,
+    "why": "Healthtech and 'building process from scratch' match her strengths, but the role lists PMP as required and centers on value-based care contracts and payer operations.",
+    "gaps": [
+     "PMP certification (required)",
+     "Value-based care / payer operations",
+     "Health-tech startup market launches"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "vynca|senior-project-manager-strategic-implementation|remote-applicants-considered-in-ca-ga-tx-az-co-fl-il-nv-nc-or-ut-wa",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Ashby (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-blue-acorn-ici-11",
+  "data": {
+   "company": "Blue Acorn iCi",
+   "title": "Senior Project Manager (Remote)",
+   "location": "Remote, US (Superior, CO office listed)",
+   "workMode": "Remote",
+   "salary": "$130,000 - $165,000",
+   "salaryMin": 130000,
+   "salaryMax": 165000,
+   "url": "https://www.builtincolorado.com/job/senior-project-manager-remote/11819954",
+   "source": "Built In Colorado",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Senior Project Manager",
+   "industry": "Digital agency / Adobe Experience Cloud consulting",
+   "requirements": [
+    "4-8 years of project or engagement management",
+    "Independently lead complex projects with multiple workstreams, vendors and delivery risk",
+    "Strong integrated planning, scope/change control, budgeting, resourcing and governance",
+    "Risk anticipation, mitigation and recovery planning",
+    "Manage project financials, forecasts and change requests",
+    "Facilitate senior stakeholders with decision-ready recommendations",
+    "Coach or mentor less experienced PMs",
+    "Familiarity with Adobe Experience Cloud and Agile/CI/CD delivery; up to 30% travel"
+   ],
+   "niceToHave": [
+    "Leading Adobe platform implementations, migrations or integrations",
+    "Improving project governance and reusable delivery practices"
+   ],
+   "summary": "Leads complex multi-workstream Adobe platform client projects, owning scope, budget, schedule, quality and recovery across vendors, integrations and releases. Advises senior client stakeholders and mentors project managers to strengthen delivery discipline.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 68,
+    "why": "Digital-agency engagement management is exactly the King Tide world: multi-workstream delivery, risk management and senior stakeholder facilitation. Gaps are Adobe Experience Cloud and owning project financials.",
+    "gaps": [
+     "Adobe Experience Cloud",
+     "Project financials / forecasting",
+     "Up to 30% travel"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "blue-acorn-ici|senior-project-manager-remote|remote-us-superior-co-office-listed",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Built In Colorado (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-aya-healthcare-12",
+  "data": {
+   "company": "Aya Healthcare",
+   "title": "Product Manager II",
+   "location": "Remote, US",
+   "workMode": "Remote",
+   "salary": "$140,000 to $155,000",
+   "salaryMin": 140000,
+   "salaryMax": 155000,
+   "url": "https://www.builtincolorado.com/job/product-manager-ii/11559824",
+   "source": "Built In Colorado",
+   "postedDate": null,
+   "seniority": "Mid",
+   "category": "Product Manager",
+   "industry": "Healthcare workforce technology",
+   "requirements": [
+    "Bachelor's degree or equivalent practical experience",
+    "3+ years of product management on internal/enterprise applications",
+    "Understanding of modern product discovery and delivery techniques",
+    "Uses AI tools for research, analysis and requirements development",
+    "Works constructively with engineers, designers and company leaders",
+    "Excellent verbal, written and presentation skills",
+    "Influences across functions and disciplines"
+   ],
+   "niceToHave": [
+    "Experience defining or designing AI-enabled product features"
+   ],
+   "summary": "Owns internal software initiatives from vision and roadmap through discovery, requirements and delivery. Partners with users, business leaders and cross-functional teams to improve internal operations at a healthcare staffing company.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 66,
+    "why": "She's held a Product Manager title and directed UX research with 170+ user tests, and uses AI tools daily as they want. They ask for 3+ years of product management on enterprise apps; her PM-titled time is ~2 years.",
+    "gaps": [
+     "3+ years product management (she has ~2)",
+     "Internal/enterprise application products"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "aya-healthcare|product-manager-ii|remote-us",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Built In Colorado (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-unanet-13",
+  "data": {
+   "company": "Unanet",
+   "title": "Product Manager (ERP)",
+   "location": "Remote, United States",
+   "workMode": "Remote",
+   "salary": "$109,650 - 129,000 per year",
+   "salaryMin": 109650,
+   "salaryMax": 129000,
+   "url": "https://www.builtincolorado.com/job/product-manager-erp/11991570",
+   "source": "Built In Colorado",
+   "postedDate": null,
+   "seniority": "Mid",
+   "category": "Product Manager",
+   "industry": "ERP software for architecture/engineering (AEC) firms",
+   "requirements": [
+    "3+ years of software product management",
+    "Accounting experience or experience building ERP/accounting software for AEC customers",
+    "Product lead in an embedded cross-functional delivery pod",
+    "Experience with hyper-agile or AI-accelerated product development",
+    "Turn customer insight into requirements, prototypes and launch-ready capabilities",
+    "Understanding of data models, data flows and technical architecture",
+    "Familiarity with responsible AI practices",
+    "Willingness to travel to customer and partner sites"
+   ],
+   "niceToHave": [
+    "Accounting/finance background or CPA",
+    "Hands-on agentic workflows, prompt engineering or LLM orchestration",
+    "Fluency with AI dev tools such as Cursor, Claude Code or Replit"
+   ],
+   "summary": "Owns a defined ERP product domain within a pod of product, engineering, UX, QA and subject-matter experts, from problem definition through post-launch iteration. Drives AI-assisted development, including agentic and LLM-based features, while supporting launches and stakeholder alignment.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 38,
+    "why": "Her AI-accelerated delivery and product background are relevant, but the role requires accounting/ERP domain experience for AEC firms, which isn't on her resume.",
+    "gaps": [
+     "Accounting or ERP product experience (required)",
+     "AEC industry",
+     "3+ years software product management"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "unanet|product-manager-erp|remote-united-states",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Built In Colorado (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "jobs",
+  "id": "job-auto-caresource-14",
+  "data": {
+   "company": "CareSource",
+   "title": "Project Manager III",
+   "location": "Remote, USA",
+   "workMode": "Remote",
+   "salary": "$94,100.00 - $164,800.00",
+   "salaryMin": 94100,
+   "salaryMax": 164800,
+   "url": "https://www.builtincolorado.com/job/project-manager-iii/11872273",
+   "source": "Built In Colorado",
+   "postedDate": null,
+   "seniority": "Senior",
+   "category": "Project Manager",
+   "industry": "Healthcare payer (Medicaid/Medicare managed care)",
+   "requirements": [
+    "Bachelor's in project management, business, CS or related field (or equivalent experience)",
+    "5+ years of project management experience",
+    "Led a team of 20+ core members and multiple vendors",
+    "Managed project budgets up to $3.5M",
+    "Proficiency with PM software and MS Project, Excel, Visio",
+    "Strong understanding of PM processes and development lifecycles (Agile ideal)",
+    "Strong communication, stakeholder management and decision-making"
+   ],
+   "niceToHave": [
+    "PMP certification (strongly preferred)",
+    "Master's degree",
+    "Healthcare payer, Medicaid and Medicare familiarity"
+   ],
+   "summary": "Leads medium-to-high complexity projects from initiation through closure, owning schedules, budgets, resources, risks and stakeholder reporting. Coordinates cross-functional business, IT and vendor teams under EPMO standards and mentors junior project staff.",
+   "verified": true,
+   "verifiedAt": "2026-10-30",
+   "match": {
+    "score": 68,
+    "why": "Meets 5+ years of PM and has led a 20+ person team (25+ engineers at Viecure), with Agile and healthcare experience. Budget ownership up to $3.5M and MS Project/Visio aren't shown.",
+    "gaps": [
+     "Project budget ownership",
+     "MS Project / Visio",
+     "PMP strongly preferred",
+     "Medicaid/Medicare payer domain"
+    ],
+    "by": "Claude",
+    "at": "2026-10-30T22:40:00Z"
+   },
+   "stage": "Discovered",
+   "origin": "automation",
+   "dedupe": "caresource|project-manager-iii|remote-usa",
+   "createdAt": "2026-10-30T22:40:00Z",
+   "foundAt": "2026-10-30T22:40:00Z",
+   "history": [
+    {
+     "at": "2026-10-30T22:40:00Z",
+     "text": "Found & verified live on Built In Colorado (initial search)"
+    }
+   ]
+  }
+ },
+ {
+  "coll": "log",
+  "id": "log-discovery-20261030",
+  "data": {
+   "at": "2026-10-30T22:40:00Z",
+   "type": "discovery",
+   "by": "Initial search",
+   "text": "Found 15 new verified roles, dropped 5 closed postings and 12 poor fits"
+  }
+ },
+ {
+  "coll": "config",
+  "id": "resume",
+  "data": {
+   "text": "CLAIRE DESMITH\nProject Manager\nDenver, CO \u2022 831-535-2761 \u2022 desmithclaire@gmail.com\n\nPROFILE\nProject Manager with five years of delivery experience and an Electrical Engineering background, specializing in bringing structure to newly formed and fast-moving technical teams. Skilled at standing up Agile process where none exists, configuring Jira to match, and translating between engineering teams and the executives who depend on them.\n\nSKILLS\nAgile / Scrum Delivery \u2022 Jira Configuration, Workflows & Reporting \u2022 Sprint Planning & Backlog Management \u2022 Risk & Dependency Management \u2022 Resource & Capacity Planning \u2022 AI-Assisted Delivery\nTools: Jira, Slack, Claude, Google Workspace, Figma, Teams\n\nWORK EXPERIENCE\n\nProject Manager | Viecure | Sept 2025 \u2013 Present\n\u2022 Lead end-to-end delivery of a 29-module platform redesign, directing 25+ engineers across product, clinical, and training teams.\n\u2022 Hold delivery structure in place when pace outruns process, keeping concurrent workstreams on track under tight timelines.\n\u2022 Resolve competing priorities and cross-team conflict before they stall delivery, negotiating trade-offs that protect timelines.\n\u2022 Introduce KPIs and delivery metrics at the program level, shifting the team from reactive firefighting to data-informed planning.\n\u2022 Use AI tools daily to accelerate planning and documentation, validating output before it reaches the team.\n\u2022 Set realistic expectations by evaluating capacity, negotiating what moves now versus later, and holding commitments on track.\n\u2022 Present program status, risks, and trade-off decisions directly to senior leadership, translating strategy into action.\n\nProduct Manager | King Tide | July 2023 \u2013 April 2025\n\u2022 Managed end-to-end delivery for 30+ client engagements across Retail, FinTech, and HealthTech, prioritizing scope from data.\n\u2022 Coordinated design, development, and client teams across 5 concurrent projects in 4 countries, keeping stakeholders aligned.\n\u2022 Ran defect triage with clients and engineers, negotiating fix-now versus defer calls that held launch dates.\n\u2022 Directed UX strategy and research, including 170+ user tests and competitor analysis, to sharpen usability before launch.\n\nProject Manager | King Tide | Sept 2021 \u2013 July 2023\n\u2022 Built and configured the Agile workflows, Jira boards, and reporting the delivery teams ran on, improving velocity.\n\u2022 Managed software development projects end-to-end, keeping teams on track, on budget, and aligned with company needs.\n\u2022 Pulled status and blockers out of engineering teams and translated them for non-technical stakeholders.\n\u2022 Owned QA and release testing end-to-end, reducing post-launch issues and improving overall product reliability.\n\nEDUCATION\nB.S. Electrical Engineering | California Polytechnic State University, San Luis Obispo | 2016 \u2013 2021\n\nVOLUNTEER\nStrategic Communication Committee | Metro Caring | 2024 \u2013 2026\n\u2022 Improved website usability and accessibility for Denver Metro Caring through user research and QA testing.\n\nCrisis Counselor | Crisis Text Line | 2018 \u2013 2020\n\u2022 Provided real-time crisis intervention, de-escalation, and active listening to people in acute distress under pressure.\n",
+   "updatedAt": "2026-10-30T22:21:00Z",
+   "source": "Claire-DeSmith_Resume.pdf"
+  }
+ },
+ {
+  "coll": "config",
+  "id": "prefs",
+  "data": {
+   "name": "Claire",
+   "location": "Denver, CO",
+   "workModes": [
+    "Hybrid",
+    "Remote",
+    "Onsite"
+   ],
+   "preferredMode": "Hybrid",
+   "minSalary": "",
+   "relocation": "",
+   "seniority": [
+    "Mid",
+    "Senior"
+   ],
+   "targetTitles": [
+    "Technical Project Manager",
+    "Technical Program Manager",
+    "Senior Project Manager",
+    "Product Manager",
+    "Agile Delivery Manager",
+    "Project Manager"
+   ],
+   "industries": "",
+   "avoid": "",
+   "confirmed": false
+  }
+ },
+ {
+  "coll": "config",
+  "id": "boards",
+  "data": {
+   "list": [
+    {
+     "type": "greenhouse",
+     "token": "newrelic",
+     "company": "New Relic"
+    },
+    {
+     "type": "greenhouse",
+     "token": "wasabi",
+     "company": "Wasabi Technologies"
+    },
+    {
+     "type": "greenhouse",
+     "token": "judihealth",
+     "company": "Judi Health"
+    },
+    {
+     "type": "greenhouse",
+     "token": "cleo",
+     "company": "Cleo"
+    },
+    {
+     "type": "lever",
+     "token": "lyrahealth",
+     "company": "Lyra Health"
+    },
+    {
+     "type": "ashby",
+     "token": "runpod",
+     "company": "Runpod"
+    },
+    {
+     "type": "ashby",
+     "token": "vynca",
+     "company": "Vynca"
+    }
+   ]
+  }
+ }
+]
