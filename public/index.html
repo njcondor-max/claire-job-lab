@@ -502,6 +502,7 @@ function jobCard(j, full){
     </div>
     <div class="acts">
       ${j.stage==="Discovered"?`<button class="btn coral sm" data-act="shortlist" data-id="${j.id}">★ Shortlist</button>`:`<button class="btn coral sm" data-act="goApply" data-id="${j.id}">✍️ Tailor resume</button>`}
+      ${["Shortlisted","Preparing"].includes(j.stage)?`<button class="btn ghost sm" data-act="unshortlist" data-id="${j.id}">✕ Remove from shortlist</button>`:""}
       <a class="btn ghost sm" href="${h(j.url)}" target="_blank" rel="noopener">↗ Open posting</a>
       <button class="btn ghost sm" data-act="openJob" data-id="${j.id}">Details</button>
       ${j.hidden?`<button class="btn ghost sm" data-act="unhide" data-id="${j.id}">Unhide</button>`:`<button class="btn ghost sm" data-act="hide" data-id="${j.id}">Not for me</button>`}
@@ -547,7 +548,7 @@ function vDiscover(){
 
 /* ===================== APPLY ===================== */
 function vApply(){
-  const jobs = S.jobs.filter(j=>["Shortlisted","Preparing"].includes(j.stage) || j.id===S.ui.applyJob).sort((a,b)=>scoreOf(b)-scoreOf(a));
+  const jobs = S.jobs.filter(j=>(["Shortlisted","Preparing"].includes(j.stage) && !j.hidden) || j.id===S.ui.applyJob).sort((a,b)=>scoreOf(b)-scoreOf(a));
   if (!S.ui.applyJob && jobs.length) S.ui.applyJob = jobs[0].id;
   const j = jobById(S.ui.applyJob);
   return `<div class="applylayout">
@@ -559,7 +560,7 @@ function vApply(){
       </div>
       <div class="card joblist" style="padding:14px;margin-top:14px">
         <h3>Your shortlist</h3>
-        ${jobs.length? jobs.map(x=>`<button class="${x.id===S.ui.applyJob?"on":""}" data-act="pickApply" data-id="${x.id}"><div style="font-weight:700;font-size:13.5px">${h(x.company)}</div><div class="small muted">${h(x.title)}</div><div class="tiny" style="margin-top:4px">${scoreOf(x)}% · ${stageLabel(x.stage)}</div></button>`).join("") : `<div class="empty small">Shortlist jobs in Discover and they’ll show up here.</div>`}
+        ${jobs.length? jobs.map(x=>`<button class="${x.id===S.ui.applyJob?"on":""}" data-act="pickApply" data-id="${x.id}"><div style="font-weight:700;font-size:13.5px">${h(x.company)}</div><div class="small muted">${h(x.title)}</div><div class="row between tiny" style="margin-top:4px"><span>${scoreOf(x)}% · ${stageLabel(x.stage)}</span><span class="muted" data-act="unshortlist" data-id="${x.id}" title="Remove from shortlist" style="cursor:pointer;padding:0 4px">✕ Remove</span></div></button>`).join("") : `<div class="empty small">Shortlist jobs in Discover and they’ll show up here.</div>`}
       </div>
     </div>
     <div>${j? applyWorkspace(j) : `<div class="card"><div class="empty">Pick a shortlisted job to start an application.</div></div>`}</div>
@@ -611,7 +612,7 @@ function applyWorkspace(j){
   }
   return `<div class="card">
     <div class="row between"><div><div class="jobtitle">${h(j.title)}</div><div class="jobmeta">${h(j.company)} · ${h(j.location||"")} · ${h(j.workMode||"")} ${salaryText(j)?"· "+h(salaryText(j)):""}</div></div>
-      <div class="row"><a class="btn ghost sm" href="${h(j.url)}" target="_blank" rel="noopener">↗ Application page</a>${k?`<button class="btn ghost sm" data-act="genKit" data-id="${j.id}" ${busy?"disabled":""}>${busy?'<span class="spin dark"></span>':"↻"} Regenerate</button>`:""}</div></div>
+      <div class="row">${["Shortlisted","Preparing"].includes(j.stage)?`<button class="btn ghost sm" data-act="unshortlist" data-id="${j.id}">✕ Remove from shortlist</button>`:""}<a class="btn ghost sm" href="${h(j.url)}" target="_blank" rel="noopener">↗ Application page</a>${k?`<button class="btn ghost sm" data-act="genKit" data-id="${j.id}" ${busy?"disabled":""}>${busy?'<span class="spin dark"></span>':"↻"} Regenerate</button>`:""}</div></div>
     <div class="steps">${steps.map(s=>`<span class="${s[1]?"done":""}">${s[1]?"✓ ":""}${s[0]}</span>`).join("")}</div>
     ${k?`<div class="subtabs">${tab("fit","Fit check")}${tab("resume","Tailored resume")}${tab("cover","Cover letter")}${tab("keywords","Keywords")}${tab("qa","Application Q&A")}${tab("outreach","Contact & outreach")}</div>`:""}
     <div>${body}</div>
@@ -1033,7 +1034,8 @@ document.addEventListener("click", async e=>{
     case "pickApply": S.ui.applyJob=id; S.ui.applySub="fit"; render(); break;
     case "applySub": S.ui.applySub=id; render(); break;
     case "shortlist": j.stage="Shortlisted"; addHistory(j,"Shortlisted"); saveJob(j); toast("★ Shortlisted — tailor it in Apply"); break;
-    case "hide": j.hidden=true; addHistory(j,"Marked not for me"); saveJob(j); break;
+    case "hide": j.hidden=true; if(["Shortlisted","Preparing"].includes(j.stage)) j.stage="Discovered"; addHistory(j,"Marked not for me"); saveJob(j); closeOverlay(); toast("Hidden — find it under “Show hidden” in Discover"); break;
+    case "unshortlist": { e.stopPropagation(); j.stage="Discovered"; addHistory(j,"Removed from shortlist"+(j.kit?" (application kit kept)":"")); if(S.ui.applyJob===id) S.ui.applyJob=null; saveJob(j); closeOverlay(); toast("Removed from your shortlist — it’s back in Discover"); break; }
     case "unhide": j.hidden=false; saveJob(j); break;
     case "snooze": if(j){ j.snoozedUntil=addDays(1); addHistory(j,"Snoozed from Today"); saveJob(j); toast("Snoozed until tomorrow");} break;
     case "markInbox": { const r=S.inbox.find(x=>x.id===id); if(r){ r.handled=true; render(); } break; }
