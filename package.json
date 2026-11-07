@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "discover": "node discover.js"
+    "discover": "node discover.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "docx": "^8.5.0",
