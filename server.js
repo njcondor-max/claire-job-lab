@@ -60,7 +60,8 @@ app.post("/api/cron/discover", async (req, res) => {
     // With mission focus on, search the web twice a week (Mon + Thu) to find mission-driven companies beyond the watch list.
     const days = missionOn(prefs) ? [1, 4] : [1];
     const webSearch = mode === "always" || (mode === "weekly" && days.includes(new Date().getUTCDay()));
-    if (!discovering) discovering = runDiscovery({ webSearch, by: "Daily search" }).finally(() => { discovering = null; });
+    const impact = missionOn(prefs) && webSearch; // on mission days, search impact job boards too
+    if (!discovering) discovering = runDiscovery({ webSearch, impact, by: "Daily search" }).finally(() => { discovering = null; });
     res.json(await discovering);
   } catch (e) { console.error(e); res.status(500).json({ code: "error", message: e.message }); }
 });
@@ -99,7 +100,7 @@ app.get("/api/budget", wrap(async (req, res) => res.json(await claude.budget()))
 app.post("/api/ai", wrap(async (req, res) => {
   const { prompt, tier, maxTokens } = req.body || {};
   if (!prompt || typeof prompt !== "string" || prompt.length > 60000) return res.status(400).json({ code: "bad_prompt" });
-  const r = await claude.callJSON({ prompt, tier: ["quick", "default", "complex"].includes(tier) ? tier : "default", maxTokens: Math.min(Number(maxTokens) || 5000, 8000) });
+  const r = await claude.callJSON({ expect: "object", prompt, tier: ["quick", "default", "complex"].includes(tier) ? tier : "default", maxTokens: Math.min(Number(maxTokens) || 5000, 8000) });
   res.json({ value: r.value, cost: r.cost, budget: await claude.budget() });
 }));
 
@@ -133,7 +134,7 @@ app.post("/api/boards/check", wrap(async (req, res) => {
 }));
 
 app.post("/api/discover", wrap(async (req, res) => {
-  if (!discovering) discovering = runDiscovery({ webSearch: !!(req.body && req.body.webSearch), mission: !!(req.body && req.body.mission), by: "Manual search" }).finally(() => { discovering = null; });
+  if (!discovering) discovering = runDiscovery({ webSearch: !!(req.body && req.body.webSearch), mission: !!(req.body && req.body.mission), impact: !!(req.body && req.body.impact), by: "Manual search" }).finally(() => { discovering = null; });
   res.json(await discovering);
 }));
 
