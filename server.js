@@ -57,7 +57,7 @@ app.post("/api/cron/discover", async (req, res) => {
   try {
     const mode = (process.env.WEB_SEARCH || "weekly").toLowerCase();
     const prefs = await store.get("config", "prefs");
-    // Mission-driven roles mostly live off the big ATS boards, so search the web twice a week (Mon + Thu) when mission focus is on.
+    // With mission focus on, search the web twice a week (Mon + Thu) to find mission-driven companies beyond the watch list.
     const days = missionOn(prefs) ? [1, 4] : [1];
     const webSearch = mode === "always" || (mode === "weekly" && days.includes(new Date().getUTCDay()));
     if (!discovering) discovering = runDiscovery({ webSearch, by: "Daily search" }).finally(() => { discovering = null; });

@@ -212,7 +212,7 @@ hr.s{border:0;border-top:1px dashed var(--line);margin:14px 0}
 <div id="askPanel" aria-label="Ask Claude">
   <div class="hd"><span style="font-size:22px">✨</span><div><b>Ask Claude</b><div class="tiny" style="opacity:.9">I can do it for you, or walk you through it</div></div><button class="x" data-act="askClear" title="Start a new chat">↺</button><button class="x" data-act="askClose" style="margin-left:6px">✕</button></div>
   <div class="msgs" id="askMsgs"></div>
-  <div class="ft"><textarea id="askIn" placeholder="Ask anything — “find nonprofit PM jobs in Denver”…" rows="1"></textarea><button class="send" data-act="askSend">➤</button></div>
+  <div class="ft"><textarea id="askIn" placeholder="Ask anything — “find TPM roles at mission-driven companies”…" rows="1"></textarea><button class="send" data-act="askSend">➤</button></div>
 </div>
 <div id="toastWrap"></div>
 
@@ -728,7 +728,7 @@ function vNetwork(){
     <div class="col">
       <div class="card"><h3>💡 Who to reach out to</h3>
         ${recs.length? recs.map(co=>`<div class="mini"><div><div class="t">${h(co)}</div><div class="small muted">You’re pursuing a role here but have no contact yet.</div></div><a class="btn ghost sm" href="https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(co+" recruiter")}" target="_blank" rel="noopener">Find ↗</a></div>`).join("") : `<div class="empty small">Every company you’re pursuing has a contact. Nice!</div>`}
-        <p class="tiny muted" style="margin:10px 0 0">Tip: first check LinkedIn for Cal Poly alumni, ex-King Tide or Viecure colleagues at the company — those are the warmest doors.${missionOn()?" For nonprofits, her own volunteer circles (Metro Caring, Crisis Text Line) and Colorado Nonprofit Association events are great places to start.":""}</p>
+        <p class="tiny muted" style="margin:10px 0 0">Tip: first check LinkedIn for Cal Poly alumni, ex-King Tide or Viecure colleagues at the company — those are the warmest doors.${missionOn()?" For mission-driven companies, her own volunteer circles (Metro Caring, Crisis Text Line) and healthtech contacts from Viecure are great places to start.":""}</p>
       </div>
       <div class="card"><h3>✉️ Sending messages</h3><div class="small muted">Draft here with Claude, then use “Open in email app” or copy it into LinkedIn. The Lab never sends anything on its own — you review and hit send.</div></div>
     </div>
@@ -805,7 +805,7 @@ function vAnalytics(){
 }
 
 /* ===================== Settings / onboarding / resume ===================== */
-function defaultPrefs(){ return {name:"Claire", location:"Denver, CO", workModes:["Hybrid","Remote","Onsite"], preferredMode:"Hybrid", minSalary:"", relocation:"", seniority:["Mid","Senior"], targetTitles:["Technical Project Manager","Technical Program Manager","Senior Project Manager","Product Manager","Agile Delivery Manager","Project Manager"], industries:"", avoid:"", cadence:"Weekday mornings", missionPriority:"Strongly prefer", missionFocus:["Nonprofit / charity"], confirmed:false}; }
+function defaultPrefs(){ return {name:"Claire", location:"Denver, CO", workModes:["Hybrid","Remote","Onsite"], preferredMode:"Hybrid", minSalary:"", relocation:"", seniority:["Mid","Senior"], targetTitles:["Technical Project Manager","Technical Program Manager","Senior Project Manager","Product Manager","Agile Delivery Manager","Project Manager"], industries:"", avoid:"", cadence:"Weekday mornings", missionPriority:"Strongly prefer", missionFocus:["Any company doing good"], confirmed:false}; }
 // Suggested mission-driven employers. The Lab checks each board when added; if one isn't found, add the careers link by hand.
 const MISSION_BOARDS=[
   {name:"Code for America", url:"https://job-boards.greenhouse.io/codeforamerica", cause:"Civic tech"},
@@ -819,12 +819,12 @@ const MISSION_BOARDS=[
   {name:"Kiva", url:"https://job-boards.greenhouse.io/kiva", cause:"Microfinance"},
   {name:"DonorsChoose", url:"https://job-boards.greenhouse.io/donorschoose", cause:"Education"},
 ];
-const MISSION_CAUSES=["Nonprofit / charity","Hunger, housing & human services","Public health & healthcare access","Mental health & crisis support","Education","Civic tech & government","Climate & environment","Social enterprise / B Corp","International development"];
+const MISSION_CAUSES=["Any company doing good","Healthcare & health access","Mental health","Education","Climate & environment","Civic tech & government","Hunger, housing & human services","Accessibility & inclusion","Financial inclusion","B Corps / public-benefit companies","Nonprofits"];
 const MISSION_PRIORITIES=["Only mission-driven","Strongly prefer","Nice to have","No preference"];
 function missionOn(){ return S.prefs && S.prefs.missionPriority && S.prefs.missionPriority!=="No preference"; }
 function missionGuide(){
   if(!missionOn()) return "MISSION: no stated preference.";
-  return `MISSION PRIORITY: ${S.prefs.missionPriority}. Causes she cares about: ${(S.prefs.missionFocus||[]).join(", ")||"nonprofit / humanitarian work"}. Real mission experience on her resume: Strategic Communication Committee volunteer at Metro Caring (Denver hunger-relief nonprofit), Crisis Counselor at Crisis Text Line, and healthtech delivery at Viecure (oncology software).`;
+  return `MISSION PRIORITY: ${S.prefs.missionPriority}. She wants the SAME kind of role (technical project/program/product management) at an employer doing good for the world. "Mission-driven" means a company or organization whose core work does real good for the world in a moral sense — nonprofits and public-benefit corporations/B Corps, and companies whose main product directly helps people or the planet (healthcare access, mental health, education, climate, civic tech, accessibility, financial inclusion). Not mission-driven: businesses whose core is harmful or extractive (gambling, tobacco, weapons, predatory lending, surveillance adtech, fossil-fuel expansion), and ordinary companies with only marketing-level CSR. Causes she especially cares about: ${(S.prefs.missionFocus||[]).filter(c=>c!=="Any company doing good").join(", ")||"any"}. Real mission experience on her resume: Strategic Communication Committee volunteer at Metro Caring (Denver hunger-relief nonprofit), Crisis Counselor at Crisis Text Line, and healthtech delivery at Viecure (oncology software).`;
 }
 function maybeOnboard(){ if (S.loaded.prefs && (!S.prefs || !S.prefs.confirmed) && !maybeOnboard.shown){ maybeOnboard.shown=true; openOnboard(); } }
 function openOnboard(){
@@ -841,8 +841,9 @@ function openOnboard(){
       <div class="field">Also open to<div class="row small" style="font-weight:500">${["Remote","Hybrid","Onsite"].map(m=>`<label><input type="checkbox" class="p_mode" value="${m}" ${p.workModes.includes(m)?"checked":""}> ${m}</label>`).join("")}</div></div>
       <div class="field" style="grid-column:1/-1">Seniority<div class="row small" style="font-weight:500">${["Mid","Senior","Lead"].map(m=>`<label><input type="checkbox" class="p_sen" value="${m}" ${p.seniority.includes(m)?"checked":""}> ${m}</label>`).join("")}</div></div>
       <label class="field" style="grid-column:1/-1">Target titles (comma separated)<input id="p_titles" value="${h(p.targetTitles.join(", "))}"></label>
-      <div class="field" style="grid-column:1/-1;background:#EFFAF5;border-radius:14px;padding:12px">💚 Mission-driven work
-        <label class="field" style="margin-top:6px">How much does the employer’s mission matter?<select id="p_mpri">${MISSION_PRIORITIES.map(v=>`<option ${p.missionPriority===v?"selected":""}>${v}</option>`).join("")}</select></label>
+      <div class="field" style="grid-column:1/-1;background:#EFFAF5;border-radius:14px;padding:12px">💚 Employers doing good
+        <div class="tiny" style="font-weight:500;margin-top:2px">Same kind of role — at a company or organization that makes the world better.</div>
+        <label class="field" style="margin-top:6px">How much does that matter?<select id="p_mpri">${MISSION_PRIORITIES.map(v=>`<option ${p.missionPriority===v?"selected":""}>${v}</option>`).join("")}</select></label>
         <div class="row small" style="font-weight:500;margin-top:8px;gap:8px 14px">${MISSION_CAUSES.map(m=>`<label><input type="checkbox" class="p_cause" value="${h(m)}" ${(p.missionFocus||[]).includes(m)?"checked":""}> ${h(m)}</label>`).join("")}</div>
       </div>
       <label class="field">Industries you’d love<input id="p_ind" value="${h(p.industries)}" placeholder="Healthtech, climate…"></label>
@@ -897,7 +898,7 @@ function openSettings(){
     <div class="card" style="margin-top:14px"><h3>🏢 Companies we watch <span class="sub">${S.boards.length}</span></h3>
       <p class="small muted" style="margin-top:0">Every weekday morning the Lab checks these companies’ job boards directly and adds new matching roles. Add any company that hires through Greenhouse, Lever or Ashby.</p>
       ${S.boards.map((x,i)=>`<div class="mini"><div><div class="t">${h(x.company||x.token)}</div><div class="tiny muted">${h(x.type)} · ${h(x.token)}</div></div><button class="btn ghost sm" data-act="rmBoard" data-i="${i}">Remove</button></div>`).join("")||`<div class="empty small">No companies yet.</div>`}
-      <div style="margin-top:12px;background:#EFFAF5;border-radius:14px;padding:12px"><b class="small">💚 Suggested mission-driven employers</b><div class="tiny muted" style="margin:2px 0 8px">Tap to watch their job board. For local Denver nonprofits, the twice-weekly web search covers Idealist and the Colorado Nonprofit Association job board.</div>
+      <div style="margin-top:12px;background:#EFFAF5;border-radius:14px;padding:12px"><b class="small">💚 Suggested employers doing good</b><div class="tiny muted" style="margin:2px 0 8px">Mission-driven organizations that hire tech project/program managers. Tap to watch their job board. The twice-weekly web search also looks for mission-driven companies beyond this list.</div>
         <div class="row" style="gap:6px">${MISSION_BOARDS.map((m,i)=>S.boards.some(b=>m.url.endsWith("/"+b.token))?`<span class="chip teal">✓ ${h(m.name)}</span>`:`<button class="btn ghost sm" data-act="addSuggested" data-i="${i}" title="${h(m.cause)}">${S.ui.busy["sug"+i]?'<span class="spin dark"></span>':"＋"} ${h(m.name)}</button>`).join("")}</div></div>
       <div class="col" style="margin-top:10px"><input id="bd_url" placeholder="Careers link, e.g. https://job-boards.greenhouse.io/companyname" style="border:1px solid var(--line);border-radius:10px;padding:8px"><div class="row"><input id="bd_name" placeholder="Company name" style="flex:1;border:1px solid var(--line);border-radius:10px;padding:8px"><button class="btn sm" data-act="addBoard">${S.ui.busy.board?'<span class="spin"></span>':"Add"}</button></div></div>
     </div>
@@ -969,7 +970,7 @@ JOB (${j.title} at ${j.company}):
 
 CANDIDATE PREFERENCES: ${JSON.stringify(S.prefs||{})}
 ${missionGuide()}
-IF THIS EMPLOYER IS A NONPROFIT OR MISSION-DRIVEN ORGANIZATION: name its specific mission (from the posting) in the cover letter and outreach; connect it honestly to her real volunteer work (Metro Caring, Crisis Text Line) and healthtech delivery; move the Volunteer section higher on the tailored resume; translate corporate terms where helpful (e.g. "clients" → "partners/stakeholders", mention working with limited resources only if the resume supports it). Never invent passion stories, causes, donations, or volunteer roles beyond what the resume states.
+IF THIS EMPLOYER IS MISSION-DRIVEN: keep the resume focused on her delivery skills for this role, but name the company's specific mission (from the posting) in the cover letter and outreach and say honestly why it matters to her, connecting to real resume facts (Viecure's oncology work, Metro Caring and Crisis Text Line volunteering). For a nonprofit, the Volunteer section can move up. Never invent passion stories, causes, donations or volunteer roles beyond what the resume states.
 
 Do all of this:
 1. Analyze the job and compare each key requirement to the resume.
@@ -1013,8 +1014,8 @@ async function importJob(){
 ${TRUTH_RULES}
 Only use what the posting says for job fields — use null when not stated (especially salary and posting date). Never guess a salary.
 MASTER RESUME:\n"""${resumeText()}"""\nPREFERENCES: ${JSON.stringify(S.prefs||{})}\n${missionGuide()}\nPOSTING URL: ${url||"none"}\nPOSTING:\n"""${text.slice(0,14000)}"""
-Return ONLY JSON: {"company":"","title":"","location":"","workMode":"Remote|Hybrid|Onsite|Unknown","salary":"exact text or null","salaryMin":number|null,"salaryMax":number|null,"postedDate":"YYYY-MM-DD or null","deadline":"YYYY-MM-DD or null","seniority":"Mid|Senior|Lead","category":"Technical Program Manager|Technical Project Manager|Senior Project Manager|Product Manager|Agile Delivery Manager|Project Manager|Other","industry":"","summary":"2 sentences","requirements":["..."],"niceToHave":["..."],"match":{"score":0-100,"why":"2 sentences, plain English, specific to her resume","gaps":["..."]},"mission":{"driven":true|false,"type":"Nonprofit|Public sector|Social enterprise|Mission-driven company|For-profit","cause":"short","note":"one sentence"}}
-Fold mission fit into the score according to her mission priority.`);
+Return ONLY JSON: {"company":"","title":"","location":"","workMode":"Remote|Hybrid|Onsite|Unknown","salary":"exact text or null","salaryMin":number|null,"salaryMax":number|null,"postedDate":"YYYY-MM-DD or null","deadline":"YYYY-MM-DD or null","seniority":"Mid|Senior|Lead","category":"Technical Program Manager|Technical Project Manager|Senior Project Manager|Product Manager|Agile Delivery Manager|Project Manager|Other","industry":"","summary":"2 sentences","requirements":["..."],"niceToHave":["..."],"match":{"score":0-100,"why":"2 sentences, plain English, specific to her resume","gaps":["..."]},"mission":{"driven":true|false,"type":"Nonprofit|Public benefit / B Corp|Mission-driven company|Public sector|Standard company|Harmful industry","cause":"short","note":"one sentence on the good it does (or why not)"}}
+Score role fit first, then adjust for mission according to her priority.`);
     j={...out}; j.match = out.match? {...out.match, by:"Claude", at:now()} : null; j.mission = out.mission||null;
   }catch(e){
     j={company:"(edit company)", title:(text.split("\n")[0]||"Imported role").slice(0,90), location:"", workMode:"Unknown", summary:text.slice(0,300), requirements:[]};
@@ -1036,8 +1037,8 @@ async function aiScore(id){
     const out=await askJSON(`Score how well Claire fits this job, 0-100, honestly (most jobs are 50-80).
 ${TRUTH_RULES}
 MASTER RESUME:\n"""${resumeText()}"""\nPREFERENCES: ${JSON.stringify(S.prefs||{})}\n${missionGuide()}\nJOB: ${JSON.stringify({title:j.title,company:j.company,location:j.location,workMode:j.workMode,salary:j.salary,summary:j.summary,requirements:j.requirements,niceToHave:j.niceToHave,description:(j.description||"").slice(0,8000)})}
-Fold mission fit into the score according to her mission priority.
-Return ONLY JSON: {"score":n,"why":"2 sentences, specific","gaps":["missing qualifications"],"mission":{"driven":true|false,"type":"Nonprofit|Public sector|Social enterprise|Mission-driven company|For-profit","cause":"short","note":"one sentence"}}`,{tier:"quick"});
+Score role fit first, then adjust for mission according to her priority.
+Return ONLY JSON: {"score":n,"why":"2 sentences, specific","gaps":["missing qualifications"],"mission":{"driven":true|false,"type":"Nonprofit|Public benefit / B Corp|Mission-driven company|Public sector|Standard company|Harmful industry","cause":"short","note":"one sentence on the good it does (or why not)"}}`,{tier:"quick"});
     j.match={score:out.score, why:out.why, gaps:out.gaps||[], by:"Claude", at:now()}; if(out.mission) j.mission=out.mission; addHistory(j,`Scored ${out.score}% by Claude`); await saveJob(j).catch(()=>{});
   }catch(e){ toast("Claude couldn’t score this right now."); }
   S.ui.busy["score"+id]=false; render();
@@ -1093,7 +1094,7 @@ function md(t){
     else { if(inList){ out+="</ul>"; inList=false; } if(ln.trim()) out+=`<p>${ln}</p>`; } }
   return out+(inList?"</ul>":"");
 }
-const QUICK=["What should I focus on today?","Find nonprofit project manager jobs in Denver","Which of my jobs are mission-driven?","Help me prep for an interview","Walk me through tailoring my resume","What do nonprofit PMs usually earn in Denver?"];
+const QUICK=["What should I focus on today?","Find TPM jobs at companies doing good","Which of my jobs are mission-driven?","Help me prep for an interview","Walk me through tailoring my resume","Is this company actually doing good?"];
 function renderChat(){
   const box=$("#askMsgs"); if(!box) return;
   const msgs=S.chat||[];
