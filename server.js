@@ -77,7 +77,7 @@ app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.ht
 
 const wrap = fn => (req, res) => fn(req, res).catch(e => {
   const status = e.code === "budget" ? 402 : e.code === "rate_limited" ? 429 : e.status === 404 ? 404 : 500;
-  if (status === 500) console.error(e);
+  console.error(`[${req.method} ${req.path}] ${status} ${e.code || ""}: ${e.message}`);
   res.status(status).json({ code: e.code || "error", message: e.message, budget: e.budget });
 });
 
@@ -133,7 +133,7 @@ app.post("/api/boards/check", wrap(async (req, res) => {
 }));
 
 app.post("/api/discover", wrap(async (req, res) => {
-  if (!discovering) discovering = runDiscovery({ webSearch: !!(req.body && req.body.webSearch), by: "Manual search" }).finally(() => { discovering = null; });
+  if (!discovering) discovering = runDiscovery({ webSearch: !!(req.body && req.body.webSearch), mission: !!(req.body && req.body.mission), by: "Manual search" }).finally(() => { discovering = null; });
   res.json(await discovering);
 }));
 
