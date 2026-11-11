@@ -167,6 +167,28 @@ table.t td{padding:8px;border-bottom:1px dashed var(--line)}
 @keyframes sp{to{transform:rotate(360deg)}}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:4px}
 hr.s{border:0;border-top:1px dashed var(--line);margin:14px 0}
+/* Ask Claude */
+#askBtn{position:fixed;right:22px;bottom:22px;z-index:45;border:0;border-radius:999px;padding:13px 18px;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(120deg,#7457F5,#9B6BFF);box-shadow:0 12px 30px -10px rgba(116,87,245,.7);display:flex;gap:8px;align-items:center}
+#askPanel{position:fixed;right:22px;bottom:22px;z-index:46;width:min(420px,calc(100vw - 24px));height:min(640px,calc(100vh - 44px));background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 60px -20px rgba(43,35,64,.45);display:none;flex-direction:column;overflow:hidden}
+#askPanel.open{display:flex}
+#askPanel .hd{padding:14px 16px;background:linear-gradient(120deg,#7457F5,#9B6BFF);color:#fff;display:flex;align-items:center;gap:10px}
+#askPanel .hd b{font-family:"Bricolage Grotesque";font-size:18px}
+#askPanel .hd .x{margin-left:auto;background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:10px;padding:5px 9px}
+#askPanel .msgs{flex:1;overflow:auto;padding:14px;background:#FBF9FF;display:flex;flex-direction:column;gap:10px}
+.bub{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;white-space:normal;word-wrap:break-word}
+.bub.u{align-self:flex-end;background:var(--peach);color:#6a2a16;border-bottom-right-radius:6px}
+.bub.a{align-self:flex-start;background:#fff;border:1px solid #ECE6FF;border-bottom-left-radius:6px}
+.bub.a ul{margin:4px 0;padding-left:18px}.bub.a p{margin:0 0 6px}.bub.a p:last-child{margin:0}
+.bub .done{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.bub .done span{font-size:12px;background:var(--mint);color:#0c6a58;border-radius:8px;padding:3px 8px;font-weight:600}
+#askPanel .quick{display:flex;flex-wrap:wrap;gap:6px}
+#askPanel .quick button{border:1px solid #DCD2FF;background:#fff;color:#5235d6;border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:700}
+#askPanel .ft{border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;align-items:flex-end}
+#askPanel textarea{flex:1;border:1px solid var(--line);border-radius:14px;padding:10px 12px;resize:none;max-height:120px;min-height:44px;font:14px/1.4 "Plus Jakarta Sans"}
+#askPanel .send{border:0;border-radius:12px;background:var(--lilac);color:#fff;font-weight:800;padding:11px 14px}
+.typing span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#B9A8FF;margin:0 2px;animation:bl 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bl{0%,100%{opacity:.3}50%{opacity:1}}
 </style>
 </head>
 <body>
@@ -186,6 +208,12 @@ hr.s{border:0;border-top:1px dashed var(--line);margin:14px 0}
   <main id="view"></main>
 </div>
 <div id="overlay"></div>
+<button id="askBtn" data-act="askOpen">💬 Ask Claude</button>
+<div id="askPanel" aria-label="Ask Claude">
+  <div class="hd"><span style="font-size:22px">✨</span><div><b>Ask Claude</b><div class="tiny" style="opacity:.9">I can do it for you, or walk you through it</div></div><button class="x" data-act="askClear" title="Start a new chat">↺</button><button class="x" data-act="askClose" style="margin-left:6px">✕</button></div>
+  <div class="msgs" id="askMsgs"></div>
+  <div class="ft"><textarea id="askIn" placeholder="Ask anything — “find nonprofit PM jobs in Denver”…" rows="1"></textarea><button class="send" data-act="askSend">➤</button></div>
+</div>
 <div id="toastWrap"></div>
 
 <script>
@@ -203,9 +231,9 @@ const S = {
   prefs: null, resume: null, jobs: [], contacts: [], log: [],
   loaded: {prefs:false, resume:false, jobs:false, contacts:false, log:false},
   mode: "loading", // db (server) | local | loading
-  budget: null, server: {}, boards: [],
+  budget: null, server: {}, boards: [], chat: [], chatBusy: false,
   inbox: [], events: [],
-  ui: { applyJob:null, applySub:"fit", filters:{q:"",minScore:0,minSalary:"",mode:"",seniority:"",cat:"",showHidden:false,showExpired:false}, busy:{}, dirty:{} },
+  ui: { applyJob:null, applySub:"fit", filters:{q:"",minScore:0,minSalary:"",mode:"",seniority:"",cat:"",showHidden:false,showExpired:false,missionOnly:false}, busy:{}, dirty:{} },
 };
 if (!TABS.some(t=>t[0]===S.tab)) S.tab = "today";
 
@@ -278,6 +306,7 @@ function applyState(d){
   S.prefs = cfg.prefs||null; S.resume = cfg.resume||null; S.boards = (cfg.boards&&cfg.boards.list)||[];
   S.jobs = d.jobs||[]; S.jobs.forEach(j=>{ if(S.ui.dirty[j.id]) j.kit=clone(S.ui.dirty[j.id]); });
   S.contacts = d.contacts||[]; S.log = d.log||[]; S.budget = d.budget||S.budget; S.server = d.server||{};
+  if (!S.chatBusy){ S.chat = (cfg.chat && cfg.chat.messages) || []; renderChat(); }
   Object.keys(S.loaded).forEach(k=>S.loaded[k]=true);
 }
 async function boot(){
@@ -356,6 +385,7 @@ function priorityOf(j){ const s=scoreOf(j); return s>=80?"High":s>=65?"Medium":"
 function buildActions(){
   const A=[]; const add=(impact,urgency,effort,o)=>A.push({...o, rank: impact*urgency/effort});
   if (!S.prefs || !S.prefs.confirmed) add(5,5,1,{t:"Confirm your job-search preferences",w:"Salary floor, remote/hybrid, relocation — 2 minutes and every score gets sharper.",btn:"Set preferences",act:"openOnboard"});
+  if (S.prefs && S.prefs.confirmed && S.prefs.missionPriority===undefined) add(5,5,1,{t:"💚 Tell the Lab what kind of mission matters to you",w:"Nonprofit, public health, education… it will steer the search and scores.",btn:"Set mission focus",act:"openOnboard"});
   if (!resumeText()) add(5,5,2,{t:"Add your master resume",w:"Everything tailored is built only from this.",btn:"Add resume",act:"openResume"});
   for (const r of S.inbox.filter(x=>!x.handled)) add(5,5,1,{t:`Reply to ${r.company||"recruiter"}`,w:r.subject,btn:"Open email",href:r.url,act:"markInbox",id:r.id});
   for (const j of S.jobs){
@@ -475,6 +505,7 @@ function filteredJobs(){
     if (f.mode && j.workMode!==f.mode) return false;
     if (f.seniority && j.seniority!==f.seniority) return false;
     if (f.cat && j.category!==f.cat) return false;
+    if (f.missionOnly && !(j.mission && j.mission.driven)) return false;
     return true;
   }).sort((a,b)=>scoreOf(b)-scoreOf(a));
 }
@@ -489,6 +520,7 @@ function jobCard(j, full){
       <div class="row" style="margin-top:8px;gap:6px">
         ${prov}
         <span class="chip ${priorityOf(j)==="High"?"coral":priorityOf(j)==="Medium"?"sun":""}">${priorityOf(j)} priority</span>
+        ${j.mission&&j.mission.driven?`<span class="chip teal" title="${h(j.mission.note||"")}">💚 ${h(j.mission.type||"Mission-driven")}${j.mission.cause?" · "+h(j.mission.cause):""}</span>`:""}
         ${j.category?`<span class="chip sky">${h(j.category)}</span>`:""}
         ${j.postedDate?`<span class="chip">Posted ${fmtD(j.postedDate)}</span>`:""}
         ${j.source?`<span class="chip">${h(j.source)}</span>`:""}
@@ -527,6 +559,7 @@ function vDiscover(){
       <div class="row small" style="margin-top:10px">
         <label><input type="checkbox" data-filter="showHidden" ${f.showHidden?"checked":""}> Show hidden</label>
         <label><input type="checkbox" data-filter="showExpired" ${f.showExpired?"checked":""}> Show closed postings</label>
+        <label><input type="checkbox" data-filter="missionOnly" ${f.missionOnly?"checked":""}> 💚 Mission-driven only</label>
         <span class="muted">· ${list.length} role${list.length===1?"":"s"}</span>
         <span style="flex:1"></span>
         <button class="btn teal sm" data-act="runSearch" ${S.ui.busy.search?"disabled":""}>${S.ui.busy.search?'<span class="spin"></span> Searching…':"🔄 Check watched companies"}</button>
@@ -542,7 +575,8 @@ function vDiscover(){
       </div>
     </div>
   </div>
-  <div class="legend" style="margin:14px 2px"><span><span class="chip teal">✓ Verified live</span> = confirmed open on the employer’s site on that date</span><span><span class="chip lilac">✨ AI</span> = Claude’s opinion, not a fact</span></div>
+  <div class="legend" style="margin:14px 2px"><span><span class="chip teal">✓ Verified live</span> = confirmed open on the employer’s site on that date</span><span><span class="chip teal">💚</span> = mission-driven employer (Claude’s read)</span><span><span class="chip lilac">✨ AI</span> = Claude’s opinion, not a fact</span>
+    ${missionOn() && S.jobs.some(j=>["Discovered","Shortlisted","Preparing"].includes(j.stage) && !j.mission)?`<button class="btn ghost sm" data-act="rescore" style="margin-left:auto">${S.ui.busy.rescore?'<span class="spin dark"></span> Re-scoring…':"💚 Re-score for mission fit"}</button>`:""}</div>
   <div class="col">${list.length? list.map(j=>jobCard(j)).join("") : `<div class="empty">No roles match these filters yet. ${S.jobs.length?"Try loosening a filter.":"The daily auto-search will drop verified jobs here, or add one you found above."}</div>`}</div>`;
 }
 
@@ -694,7 +728,7 @@ function vNetwork(){
     <div class="col">
       <div class="card"><h3>💡 Who to reach out to</h3>
         ${recs.length? recs.map(co=>`<div class="mini"><div><div class="t">${h(co)}</div><div class="small muted">You’re pursuing a role here but have no contact yet.</div></div><a class="btn ghost sm" href="https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(co+" recruiter")}" target="_blank" rel="noopener">Find ↗</a></div>`).join("") : `<div class="empty small">Every company you’re pursuing has a contact. Nice!</div>`}
-        <p class="tiny muted" style="margin:10px 0 0">Tip: first check LinkedIn for Cal Poly alumni, ex-King Tide or Viecure colleagues at the company — those are the warmest doors.</p>
+        <p class="tiny muted" style="margin:10px 0 0">Tip: first check LinkedIn for Cal Poly alumni, ex-King Tide or Viecure colleagues at the company — those are the warmest doors.${missionOn()?" For nonprofits, her own volunteer circles (Metro Caring, Crisis Text Line) and Colorado Nonprofit Association events are great places to start.":""}</p>
       </div>
       <div class="card"><h3>✉️ Sending messages</h3><div class="small muted">Draft here with Claude, then use “Open in email app” or copy it into LinkedIn. The Lab never sends anything on its own — you review and hit send.</div></div>
     </div>
@@ -771,7 +805,27 @@ function vAnalytics(){
 }
 
 /* ===================== Settings / onboarding / resume ===================== */
-function defaultPrefs(){ return {name:"Claire", location:"Denver, CO", workModes:["Hybrid","Remote","Onsite"], preferredMode:"Hybrid", minSalary:"", relocation:"", seniority:["Mid","Senior"], targetTitles:["Technical Project Manager","Technical Program Manager","Senior Project Manager","Product Manager","Agile Delivery Manager","Project Manager"], industries:"", avoid:"", cadence:"Weekday mornings", confirmed:false}; }
+function defaultPrefs(){ return {name:"Claire", location:"Denver, CO", workModes:["Hybrid","Remote","Onsite"], preferredMode:"Hybrid", minSalary:"", relocation:"", seniority:["Mid","Senior"], targetTitles:["Technical Project Manager","Technical Program Manager","Senior Project Manager","Product Manager","Agile Delivery Manager","Project Manager"], industries:"", avoid:"", cadence:"Weekday mornings", missionPriority:"Strongly prefer", missionFocus:["Nonprofit / charity"], confirmed:false}; }
+// Suggested mission-driven employers. The Lab checks each board when added; if one isn't found, add the careers link by hand.
+const MISSION_BOARDS=[
+  {name:"Code for America", url:"https://job-boards.greenhouse.io/codeforamerica", cause:"Civic tech"},
+  {name:"Khan Academy", url:"https://job-boards.greenhouse.io/khanacademy", cause:"Education"},
+  {name:"Crisis Text Line", url:"https://job-boards.greenhouse.io/crisistextline", cause:"Mental health"},
+  {name:"Wikimedia Foundation", url:"https://job-boards.greenhouse.io/wikimedia", cause:"Free knowledge"},
+  {name:"Nava PBC", url:"https://job-boards.greenhouse.io/navapbc", cause:"Government services"},
+  {name:"GiveDirectly", url:"https://job-boards.greenhouse.io/givedirectly", cause:"Poverty relief"},
+  {name:"Thorn", url:"https://job-boards.greenhouse.io/thorn", cause:"Child safety"},
+  {name:"Mozilla", url:"https://job-boards.greenhouse.io/mozilla", cause:"Open internet"},
+  {name:"Kiva", url:"https://job-boards.greenhouse.io/kiva", cause:"Microfinance"},
+  {name:"DonorsChoose", url:"https://job-boards.greenhouse.io/donorschoose", cause:"Education"},
+];
+const MISSION_CAUSES=["Nonprofit / charity","Hunger, housing & human services","Public health & healthcare access","Mental health & crisis support","Education","Civic tech & government","Climate & environment","Social enterprise / B Corp","International development"];
+const MISSION_PRIORITIES=["Only mission-driven","Strongly prefer","Nice to have","No preference"];
+function missionOn(){ return S.prefs && S.prefs.missionPriority && S.prefs.missionPriority!=="No preference"; }
+function missionGuide(){
+  if(!missionOn()) return "MISSION: no stated preference.";
+  return `MISSION PRIORITY: ${S.prefs.missionPriority}. Causes she cares about: ${(S.prefs.missionFocus||[]).join(", ")||"nonprofit / humanitarian work"}. Real mission experience on her resume: Strategic Communication Committee volunteer at Metro Caring (Denver hunger-relief nonprofit), Crisis Counselor at Crisis Text Line, and healthtech delivery at Viecure (oncology software).`;
+}
 function maybeOnboard(){ if (S.loaded.prefs && (!S.prefs || !S.prefs.confirmed) && !maybeOnboard.shown){ maybeOnboard.shown=true; openOnboard(); } }
 function openOnboard(){
   const p = Object.assign(defaultPrefs(), S.prefs||{});
@@ -787,6 +841,10 @@ function openOnboard(){
       <div class="field">Also open to<div class="row small" style="font-weight:500">${["Remote","Hybrid","Onsite"].map(m=>`<label><input type="checkbox" class="p_mode" value="${m}" ${p.workModes.includes(m)?"checked":""}> ${m}</label>`).join("")}</div></div>
       <div class="field" style="grid-column:1/-1">Seniority<div class="row small" style="font-weight:500">${["Mid","Senior","Lead"].map(m=>`<label><input type="checkbox" class="p_sen" value="${m}" ${p.seniority.includes(m)?"checked":""}> ${m}</label>`).join("")}</div></div>
       <label class="field" style="grid-column:1/-1">Target titles (comma separated)<input id="p_titles" value="${h(p.targetTitles.join(", "))}"></label>
+      <div class="field" style="grid-column:1/-1;background:#EFFAF5;border-radius:14px;padding:12px">💚 Mission-driven work
+        <label class="field" style="margin-top:6px">How much does the employer’s mission matter?<select id="p_mpri">${MISSION_PRIORITIES.map(v=>`<option ${p.missionPriority===v?"selected":""}>${v}</option>`).join("")}</select></label>
+        <div class="row small" style="font-weight:500;margin-top:8px;gap:8px 14px">${MISSION_CAUSES.map(m=>`<label><input type="checkbox" class="p_cause" value="${h(m)}" ${(p.missionFocus||[]).includes(m)?"checked":""}> ${h(m)}</label>`).join("")}</div>
+      </div>
       <label class="field">Industries you’d love<input id="p_ind" value="${h(p.industries)}" placeholder="Healthtech, climate…"></label>
       <label class="field">Companies or industries to skip<input id="p_avoid" value="${h(p.avoid)}" placeholder="Optional"></label>
     </div>
@@ -831,7 +889,7 @@ function openSettings(){
   $("#overlay").innerHTML=`<div class="scrim" data-act="closeOverlay"><div class="drawer" data-stop="1">
     <div class="row between"><h2>⚙︎ Lab settings</h2><button class="iconbtn" data-act="closeOverlay">✕</button></div>
     <div class="card" style="margin-top:14px"><h3>Preferences</h3>
-      <div class="small">${h(p.location)} · prefers ${h(p.preferredMode||"—")} · open to ${h((p.workModes||[]).join(", "))}<br>Min salary: ${p.minSalary?"$"+h(p.minSalary)+"k":"not set"} · Relocation: ${h(p.relocation||"not set")}<br>Titles: ${h((p.targetTitles||[]).join(", "))}</div>
+      <div class="small">${h(p.location)} · prefers ${h(p.preferredMode||"—")} · open to ${h((p.workModes||[]).join(", "))}<br>Min salary: ${p.minSalary?"$"+h(p.minSalary)+"k":"not set"} · Relocation: ${h(p.relocation||"not set")}<br>Titles: ${h((p.targetTitles||[]).join(", "))}<br>💚 Mission: ${h(p.missionPriority||"not set")}${(p.missionFocus||[]).length?" · "+h(p.missionFocus.join(", ")):""}</div>
       <div class="row" style="margin-top:10px"><button class="btn sm" data-act="openOnboard">Edit preferences</button><button class="btn ghost sm" data-act="openResume">Master resume</button></div></div>
     <div class="card" style="margin-top:14px"><h3>Integrations</h3>
       ${integ.map(i=>`<div class="mini"><div><div class="t">${i[0]}</div><div class="small muted">${h(i[2])}</div></div><span class="dot ${i[1]}"></span></div>`).join("")}
@@ -839,6 +897,8 @@ function openSettings(){
     <div class="card" style="margin-top:14px"><h3>🏢 Companies we watch <span class="sub">${S.boards.length}</span></h3>
       <p class="small muted" style="margin-top:0">Every weekday morning the Lab checks these companies’ job boards directly and adds new matching roles. Add any company that hires through Greenhouse, Lever or Ashby.</p>
       ${S.boards.map((x,i)=>`<div class="mini"><div><div class="t">${h(x.company||x.token)}</div><div class="tiny muted">${h(x.type)} · ${h(x.token)}</div></div><button class="btn ghost sm" data-act="rmBoard" data-i="${i}">Remove</button></div>`).join("")||`<div class="empty small">No companies yet.</div>`}
+      <div style="margin-top:12px;background:#EFFAF5;border-radius:14px;padding:12px"><b class="small">💚 Suggested mission-driven employers</b><div class="tiny muted" style="margin:2px 0 8px">Tap to watch their job board. For local Denver nonprofits, the twice-weekly web search covers Idealist and the Colorado Nonprofit Association job board.</div>
+        <div class="row" style="gap:6px">${MISSION_BOARDS.map((m,i)=>S.boards.some(b=>m.url.endsWith("/"+b.token))?`<span class="chip teal">✓ ${h(m.name)}</span>`:`<button class="btn ghost sm" data-act="addSuggested" data-i="${i}" title="${h(m.cause)}">${S.ui.busy["sug"+i]?'<span class="spin dark"></span>':"＋"} ${h(m.name)}</button>`).join("")}</div></div>
       <div class="col" style="margin-top:10px"><input id="bd_url" placeholder="Careers link, e.g. https://job-boards.greenhouse.io/companyname" style="border:1px solid var(--line);border-radius:10px;padding:8px"><div class="row"><input id="bd_name" placeholder="Company name" style="flex:1;border:1px solid var(--line);border-radius:10px;padding:8px"><button class="btn sm" data-act="addBoard">${S.ui.busy.board?'<span class="spin"></span>':"Add"}</button></div></div>
     </div>
     <div class="card" style="margin-top:14px"><h3>🤖 Automation log <span class="sub">${S.log.length} entries</span></h3>
@@ -908,6 +968,8 @@ JOB (${j.title} at ${j.company}):
 """${jd}"""
 
 CANDIDATE PREFERENCES: ${JSON.stringify(S.prefs||{})}
+${missionGuide()}
+IF THIS EMPLOYER IS A NONPROFIT OR MISSION-DRIVEN ORGANIZATION: name its specific mission (from the posting) in the cover letter and outreach; connect it honestly to her real volunteer work (Metro Caring, Crisis Text Line) and healthtech delivery; move the Volunteer section higher on the tailored resume; translate corporate terms where helpful (e.g. "clients" → "partners/stakeholders", mention working with limited resources only if the resume supports it). Never invent passion stories, causes, donations, or volunteer roles beyond what the resume states.
 
 Do all of this:
 1. Analyze the job and compare each key requirement to the resume.
@@ -950,9 +1012,10 @@ async function importJob(){
     const out = await askJSON(`Extract the job posting below into JSON and assess Claire's fit.
 ${TRUTH_RULES}
 Only use what the posting says for job fields — use null when not stated (especially salary and posting date). Never guess a salary.
-MASTER RESUME:\n"""${resumeText()}"""\nPREFERENCES: ${JSON.stringify(S.prefs||{})}\nPOSTING URL: ${url||"none"}\nPOSTING:\n"""${text.slice(0,14000)}"""
-Return ONLY JSON: {"company":"","title":"","location":"","workMode":"Remote|Hybrid|Onsite|Unknown","salary":"exact text or null","salaryMin":number|null,"salaryMax":number|null,"postedDate":"YYYY-MM-DD or null","deadline":"YYYY-MM-DD or null","seniority":"Mid|Senior|Lead","category":"Technical Program Manager|Technical Project Manager|Senior Project Manager|Product Manager|Agile Delivery Manager|Project Manager|Other","industry":"","summary":"2 sentences","requirements":["..."],"niceToHave":["..."],"match":{"score":0-100,"why":"2 sentences, plain English, specific to her resume","gaps":["..."]}}`);
-    j={...out}; j.match = out.match? {...out.match, by:"Claude", at:now()} : null;
+MASTER RESUME:\n"""${resumeText()}"""\nPREFERENCES: ${JSON.stringify(S.prefs||{})}\n${missionGuide()}\nPOSTING URL: ${url||"none"}\nPOSTING:\n"""${text.slice(0,14000)}"""
+Return ONLY JSON: {"company":"","title":"","location":"","workMode":"Remote|Hybrid|Onsite|Unknown","salary":"exact text or null","salaryMin":number|null,"salaryMax":number|null,"postedDate":"YYYY-MM-DD or null","deadline":"YYYY-MM-DD or null","seniority":"Mid|Senior|Lead","category":"Technical Program Manager|Technical Project Manager|Senior Project Manager|Product Manager|Agile Delivery Manager|Project Manager|Other","industry":"","summary":"2 sentences","requirements":["..."],"niceToHave":["..."],"match":{"score":0-100,"why":"2 sentences, plain English, specific to her resume","gaps":["..."]},"mission":{"driven":true|false,"type":"Nonprofit|Public sector|Social enterprise|Mission-driven company|For-profit","cause":"short","note":"one sentence"}}
+Fold mission fit into the score according to her mission priority.`);
+    j={...out}; j.match = out.match? {...out.match, by:"Claude", at:now()} : null; j.mission = out.mission||null;
   }catch(e){
     j={company:"(edit company)", title:(text.split("\n")[0]||"Imported role").slice(0,90), location:"", workMode:"Unknown", summary:text.slice(0,300), requirements:[]};
     toast("Claude unavailable — saved with a quick score. Edit details in the job panel.");
@@ -972,9 +1035,10 @@ async function aiScore(id){
   try{
     const out=await askJSON(`Score how well Claire fits this job, 0-100, honestly (most jobs are 50-80).
 ${TRUTH_RULES}
-MASTER RESUME:\n"""${resumeText()}"""\nPREFERENCES: ${JSON.stringify(S.prefs||{})}\nJOB: ${JSON.stringify({title:j.title,company:j.company,location:j.location,workMode:j.workMode,salary:j.salary,summary:j.summary,requirements:j.requirements,niceToHave:j.niceToHave,description:(j.description||"").slice(0,8000)})}
-Return ONLY JSON: {"score":n,"why":"2 sentences, specific","gaps":["missing qualifications"]}`,{tier:"quick"});
-    j.match={...out, by:"Claude", at:now()}; addHistory(j,`Scored ${out.score}% by Claude`); await saveJob(j).catch(()=>{});
+MASTER RESUME:\n"""${resumeText()}"""\nPREFERENCES: ${JSON.stringify(S.prefs||{})}\n${missionGuide()}\nJOB: ${JSON.stringify({title:j.title,company:j.company,location:j.location,workMode:j.workMode,salary:j.salary,summary:j.summary,requirements:j.requirements,niceToHave:j.niceToHave,description:(j.description||"").slice(0,8000)})}
+Fold mission fit into the score according to her mission priority.
+Return ONLY JSON: {"score":n,"why":"2 sentences, specific","gaps":["missing qualifications"],"mission":{"driven":true|false,"type":"Nonprofit|Public sector|Social enterprise|Mission-driven company|For-profit","cause":"short","note":"one sentence"}}`,{tier:"quick"});
+    j.match={score:out.score, why:out.why, gaps:out.gaps||[], by:"Claude", at:now()}; if(out.mission) j.mission=out.mission; addHistory(j,`Scored ${out.score}% by Claude`); await saveJob(j).catch(()=>{});
   }catch(e){ toast("Claude couldn’t score this right now."); }
   S.ui.busy["score"+id]=false; render();
 }
@@ -1002,6 +1066,12 @@ Return ONLY JSON: {"subject":"... or empty","body":"..."}`,{tier:"quick"});
   }catch(e){ toast("Claude couldn’t draft that right now."); }
   S.ui.busy["msg"+cid]=false;
 }
+function confirmRescore(){
+  const n=S.jobs.filter(j=>["Discovered","Shortlisted","Preparing"].includes(j.stage)&&!j.expired).length;
+  $("#overlay").innerHTML=`<div class="scrim center" data-act="closeOverlay"><div class="modal" data-stop="1" style="width:min(460px,100%)">
+    <h2>💚 Re-score for mission fit?</h2><p>Claude will re-check your ${n} open jobs against your mission preferences and mark which employers are mission-driven. Costs about ${Math.max(1,Math.round(n*0.25))}¢ of your AI budget.</p>
+    <div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="closeOverlay">Not now</button><button class="btn teal" data-act="doRescore">Re-score</button></div></div></div>`;
+}
 function confirmApplied(id){
   const j=jobById(id); if(!j) return;
   $("#overlay").innerHTML=`<div class="scrim center" data-act="closeOverlay"><div class="modal" data-stop="1" style="width:min(480px,100%)">
@@ -1012,6 +1082,55 @@ function confirmApplied(id){
   </div></div>`;
 }
 function addHistoryC(c,text){ c.history=c.history||[]; c.history.push({at:now(),text}); }
+
+/* ===================== Ask Claude ===================== */
+function md(t){
+  let x=h(t);
+  x=x.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  const lines=x.split("\n"); let out="", inList=false;
+  for(const ln of lines){ const m=ln.match(/^\s*(?:[-•*]|\d+\.)\s+(.*)/);
+    if(m){ if(!inList){ out+="<ul>"; inList=true; } out+=`<li>${m[1]}</li>`; }
+    else { if(inList){ out+="</ul>"; inList=false; } if(ln.trim()) out+=`<p>${ln}</p>`; } }
+  return out+(inList?"</ul>":"");
+}
+const QUICK=["What should I focus on today?","Find nonprofit project manager jobs in Denver","Which of my jobs are mission-driven?","Help me prep for an interview","Walk me through tailoring my resume","What do nonprofit PMs usually earn in Denver?"];
+function renderChat(){
+  const box=$("#askMsgs"); if(!box) return;
+  const msgs=S.chat||[];
+  box.innerHTML = (msgs.length? "" : `<div class="bub a"><p>Hi ${h((S.prefs&&S.prefs.name)||"Claire")}! 👋 I can search for roles, update your pipeline, add contacts, explain anything in the Lab, or prep you for interviews. What would you like to do?</p></div><div class="quick">${QUICK.map(q=>`<button data-act="askQuick" data-q="${h(q)}">${h(q)}</button>`).join("")}</div>`)
+    + msgs.map(m=>`<div class="bub ${m.role==="user"?"u":"a"}">${m.role==="user"?h(m.content).replace(/\n/g,"<br>"):md(m.content)}${(m.changes&&m.changes.length)?`<div class="done">${m.changes.map(c=>`<span>✓ ${h(c)}</span>`).join("")}</div>`:""}</div>`).join("")
+    + (S.chatBusy? `<div class="bub a typing"><span></span><span></span><span></span></div>`:"");
+  box.scrollTop=box.scrollHeight;
+}
+async function askSend(text){
+  const inp=$("#askIn"); text=(text||inp.value).trim(); if(!text||S.chatBusy) return;
+  if(S.mode!=="db"){ toast("Ask Claude needs the Lab server."); return; }
+  inp.value=""; S.chat=[...(S.chat||[]), {role:"user", content:text, at:now()}]; S.chatBusy=true; renderChat();
+  try{
+    const r=await api("POST","/api/chat",{messages:S.chat.map(m=>({role:m.role, content:m.content}))});
+    S.chat=[...S.chat, {role:"assistant", content:r.reply, changes:r.changes, at:now()}];
+    if(r.budget){ S.budget=r.budget; budgetPill(); }
+    S.chatBusy=false; renderChat();
+    if((r.changes||[]).length || (r.ui||[]).length){ applyState(await api("GET","/api/state")); render(); }
+    for(const u of r.ui||[]) runUi(u);
+  }catch(e){
+    S.chatBusy=false; if(e.budget){ S.budget=e.budget; budgetPill(); }
+    S.chat=[...S.chat, {role:"assistant", content: e.code==="budget"? e.message : "Sorry — I hit a snag: "+(e.message||"unknown error")+". Try again in a moment.", at:now()}]; renderChat();
+  }
+}
+function runUi(u){
+  if(!u) return;
+  if(u.view==="settings") return openSettings();
+  if(u.view==="resume") return openResume();
+  if(u.view==="preferences") return openOnboard();
+  if(TABS.some(t=>t[0]===u.view)){ S.tab=u.view; location.hash=u.view; }
+  if(u.action==="build_kit" && u.jobId){ S.tab="apply"; location.hash="apply"; S.ui.applyJob=u.jobId; S.ui.applySub="fit"; render(); const j=jobById(u.jobId); if(j && !j.kit) genKit(u.jobId); return; }
+  if(u.view==="apply" && u.jobId){ S.ui.applyJob=u.jobId; }
+  render(); window.scrollTo(0,0);
+  if((u.action==="open_job"||u.jobId) && u.view!=="apply") openJob(u.jobId);
+  if(u.contactId) openContact(u.contactId);
+}
+document.addEventListener("keydown", e=>{ if(e.target && e.target.id==="askIn" && e.key==="Enter" && !e.shiftKey){ e.preventDefault(); askSend(); } });
 
 /* ===================== event delegation ===================== */
 document.addEventListener("click", async e=>{
@@ -1057,8 +1176,10 @@ document.addEventListener("click", async e=>{
     case "rmInterview": j.interviews.splice(Number(el.dataset.i),1); await saveJob(j).catch(()=>{}); openJob(id); break;
     case "addNote": { const t=$("#note_in").value.trim(); if(!t) break; addHistory(j,"📝 "+t); await saveJob(j).catch(()=>{}); openJob(id); break; }
     case "addManual": { S.tab="discover"; location.hash="discover"; render(); window.scrollTo(0,0); setTimeout(()=>{const t=$("#imp_url"); if(t) t.focus();},50); toast("Paste the posting link and description to add it."); break; }
-    case "savePrefs": { const v=x=>($("#"+x)||{}).value||""; const p={...(S.prefs||defaultPrefs()), name:v("p_name")||"Claire", location:v("p_loc"), minSalary:v("p_sal"), relocation:v("p_rel"), preferredMode:v("p_pref"), workModes:[...document.querySelectorAll(".p_mode:checked")].map(x=>x.value), seniority:[...document.querySelectorAll(".p_sen:checked")].map(x=>x.value), targetTitles:v("p_titles").split(",").map(s=>s.trim()).filter(Boolean), industries:v("p_ind"), avoid:v("p_avoid"), confirmed:true, updatedAt:now()};
-      closeOverlay(); await savePrefs(p).catch(()=>{}); if(p.minSalary) S.ui.filters.minSalary=""; toast("Preferences saved ✨"); logEvent("settings","Updated job-search preferences"); break; }
+    case "savePrefs": { const v=x=>($("#"+x)||{}).value||""; const p={...(S.prefs||defaultPrefs()), name:v("p_name")||"Claire", location:v("p_loc"), minSalary:v("p_sal"), relocation:v("p_rel"), preferredMode:v("p_pref"), workModes:[...document.querySelectorAll(".p_mode:checked")].map(x=>x.value), seniority:[...document.querySelectorAll(".p_sen:checked")].map(x=>x.value), targetTitles:v("p_titles").split(",").map(s=>s.trim()).filter(Boolean), industries:v("p_ind"), avoid:v("p_avoid"), missionPriority:v("p_mpri")||"No preference", missionFocus:[...document.querySelectorAll(".p_cause:checked")].map(x=>x.value), confirmed:true, updatedAt:now()};
+      const missionChanged = JSON.stringify([p.missionPriority,p.missionFocus])!==JSON.stringify([(S.prefs||{}).missionPriority,(S.prefs||{}).missionFocus]);
+      closeOverlay(); await savePrefs(p).catch(()=>{}); if(p.minSalary) S.ui.filters.minSalary=""; toast("Preferences saved ✨"); logEvent("settings","Updated job-search preferences");
+      if (missionChanged && S.jobs.some(j=>["Discovered","Shortlisted","Preparing"].includes(j.stage))) setTimeout(()=>confirmRescore(),400); break; }
     case "saveResume": { const t=$("#res_text").value.trim(); if(!t){toast("Paste or upload your resume first.");break;} const st=$("#res_status"); await saveResume({text:t, updatedAt:now(), source:(st&&st.dataset.src)||(S.resume&&S.resume.source)||"Edited in Lab"}).catch(()=>{}); closeOverlay(); toast("Master resume saved"); logEvent("settings","Master resume updated"); break; }
     case "saveContact": { const v=x=>($("#"+x)||{}).value||""; const ex=S.contacts.find(x=>x.id===id); const c={...(ex||{id, history:[], createdAt:now()}), name:v("ct_name")||"Unnamed", role:v("ct_role"), company:v("ct_company"), jobId:v("ct_job"), email:v("ct_email").trim(), linkedin:v("ct_li").trim(), how:v("ct_how"), nextFollowUp:v("ct_next")||null, referral:$("#ct_ref").checked, notes:v("ct_notes")};
       if(!ex) addHistoryC(c,"Added to your network"); await saveContact(c).catch(()=>{}); toast("Contact saved"); openContact(c.id); break; }
@@ -1076,6 +1197,17 @@ document.addEventListener("click", async e=>{
       S.ui.busy.board=true; try{ const r=await api("POST","/api/boards/check",{url}); const list=[...S.boards.filter(x=>!(x.type===r.type&&x.token===r.token)), {type:r.type, token:r.token, company:name||r.token}]; S.boards=list; await queueWrite("config/boards",{list}); toast(`Added — ${r.openJobs} open job${r.openJobs===1?"":"s"} on their board right now`); }catch(e){ toast(e.message||"Couldn’t read that board"); }
       S.ui.busy.board=false; openSettings(); break; }
     case "rmBoard": { const list=S.boards.filter((_,i)=>i!==Number(el.dataset.i)); S.boards=list; await queueWrite("config/boards",{list}).catch(()=>{}); openSettings(); break; }
+    case "rescore": confirmRescore(); break;
+    case "askOpen": $("#askPanel").classList.add("open"); $("#askBtn").style.display="none"; renderChat(); setTimeout(()=>$("#askIn").focus(),50); break;
+    case "askClose": $("#askPanel").classList.remove("open"); $("#askBtn").style.display=""; break;
+    case "askSend": askSend(); break;
+    case "askQuick": askSend(el.dataset.q); break;
+    case "askClear": if(S.chatBusy) break; S.chat=[]; renderChat(); api("DELETE","/api/chat").catch(()=>{}); break;
+    case "doRescore": { closeOverlay(); S.ui.busy.rescore=true; render(); try{ const r=await api("POST","/api/rescore",{}); if(r.budget){S.budget=r.budget;} applyState(await api("GET","/api/state")); toast(`Re-scored ${r.rescored} jobs for mission fit 💚`); }catch(e){ toast(e.message||"Re-score failed"); } S.ui.busy.rescore=false; render(); break; }
+    case "addSuggested": { const sug=MISSION_BOARDS[Number(el.dataset.i)]; S.ui.busy["sug"+el.dataset.i]=true; openSettings();
+      try{ const r=await api("POST","/api/boards/check",{url:sug.url}); const list=[...S.boards.filter(x=>!(x.type===r.type&&x.token===r.token)), {type:r.type, token:r.token, company:sug.name}]; S.boards=list; await queueWrite("config/boards",{list}); toast(`Watching ${sug.name} — ${r.openJobs} open job${r.openJobs===1?"":"s"} right now`); }
+      catch(e){ toast(`Couldn’t find ${sug.name}’s board — they may use a different system. Add their careers link by hand.`); }
+      S.ui.busy["sug"+el.dataset.i]=false; openSettings(); break; }
     case "exportData": copy(JSON.stringify({prefs:S.prefs,resume:S.resume,jobs:S.jobs,contacts:S.contacts},null,2)); break;
   }
 });

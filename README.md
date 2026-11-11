@@ -8,6 +8,8 @@ An AI-assisted job search dashboard for Claire DeSmith. It runs on Render, and C
 - **Pipeline**: a drag-and-drop board with a full history for each job. It suggests follow-ups and flags applications that have gone quiet.
 - **Network**: contacts, referral leads, message drafts written by Claude, and "Open in email app".
 - **Analytics**: her funnel, response and interview rates, pay ranges, and results by role type and by source.
+- **💚 Mission focus**: preferences for how much an employer's mission matters and which causes. Claude marks mission-driven employers, scores fit with that in mind, and tailors kits to her real volunteer work. Discover has a "Mission-driven only" filter. Lab settings has one-tap suggested nonprofit job boards. When mission focus is on, the web search runs Mondays and Thursdays and targets Idealist and Colorado nonprofit job boards.
+- **💬 Ask Claude**: a chat assistant (bottom right) that can answer anything, search the web, and act in the Lab (add jobs, move stages, set follow-ups, add contacts, update preferences, run searches, open screens, start an application kit), or walk her through it. It can't send email or submit applications. Each message costs about 1–3¢ of the AI budget.
 
 The Lab never sends email or submits applications. Claire does both herself.
 

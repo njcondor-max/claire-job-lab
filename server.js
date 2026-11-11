@@ -4,7 +4,8 @@ const path = require("path");
 const store = require("./lib/store");
 const claude = require("./lib/claude");
 const { fetchPosting, parseBoardUrl, listBoard } = require("./lib/boards");
-const { runDiscovery } = require("./lib/discover");
+const { runDiscovery, rescoreJobs, missionOn } = require("./lib/discover");
+const assistant = require("./lib/assistant");
 
 const app = express();
 app.set("trust proxy", 1);
@@ -55,7 +56,10 @@ app.post("/api/cron/discover", async (req, res) => {
   if (!secret || given.length !== secret.length || !crypto.timingSafeEqual(Buffer.from(given), Buffer.from(secret))) return res.status(401).json({ code: "auth" });
   try {
     const mode = (process.env.WEB_SEARCH || "weekly").toLowerCase();
-    const webSearch = mode === "always" || (mode === "weekly" && new Date().getUTCDay() === 1);
+    const prefs = await store.get("config", "prefs");
+    // Mission-driven roles mostly live off the big ATS boards, so search the web twice a week (Mon + Thu) when mission focus is on.
+    const days = missionOn(prefs) ? [1, 4] : [1];
+    const webSearch = mode === "always" || (mode === "weekly" && days.includes(new Date().getUTCDay()));
     if (!discovering) discovering = runDiscovery({ webSearch, by: "Daily search" }).finally(() => { discovering = null; });
     res.json(await discovering);
   } catch (e) { console.error(e); res.status(500).json({ code: "error", message: e.message }); }
@@ -97,6 +101,19 @@ app.post("/api/ai", wrap(async (req, res) => {
   if (!prompt || typeof prompt !== "string" || prompt.length > 60000) return res.status(400).json({ code: "bad_prompt" });
   const r = await claude.callJSON({ prompt, tier: ["quick", "default", "complex"].includes(tier) ? tier : "default", maxTokens: Math.min(Number(maxTokens) || 5000, 8000) });
   res.json({ value: r.value, cost: r.cost, budget: await claude.budget() });
+}));
+
+app.post("/api/chat", wrap(async (req, res) => {
+  const history = Array.isArray(req.body && req.body.messages) ? req.body.messages : [];
+  const r = await assistant.chat(history);
+  const saved = [...history, { role: "assistant", content: r.reply, changes: r.changes, at: new Date().toISOString() }].slice(-40);
+  await store.put("config", "chat", { messages: saved, updatedAt: new Date().toISOString() });
+  res.json({ ...r, budget: await claude.budget() });
+}));
+app.delete("/api/chat", wrap(async (req, res) => { await store.put("config", "chat", { messages: [], updatedAt: new Date().toISOString() }); res.json({ ok: true }); }));
+app.post("/api/rescore", wrap(async (req, res) => {
+  const ids = Array.isArray(req.body && req.body.ids) ? req.body.ids : null;
+  res.json({ ...(await rescoreJobs({ ids })), budget: await claude.budget() });
 }));
 
 app.post("/api/fetch-job", wrap(async (req, res) => {
