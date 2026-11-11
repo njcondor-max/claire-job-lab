@@ -615,8 +615,8 @@ function vDiscover(){
     </div>
   </div>
   <div class="legend" style="margin:14px 2px"><span><span class="chip teal">✓ Verified live</span> = confirmed open on the employer’s site on that date</span><span><span class="chip teal">💚</span> = mission-driven employer (Claude’s read)</span><span><span class="chip lilac">✨ AI</span> = Claude’s opinion, not a fact</span>
-    ${missionOn() && S.jobs.some(j=>["Discovered","Shortlisted","Preparing"].includes(j.stage) && !j.mission)?`<button class="btn ghost sm" data-act="rescore" style="margin-left:auto">${S.ui.busy.rescore?'<span class="spin dark"></span> Re-scoring…':"💚 Re-score for mission fit"}</button>`:""}</div>
-  <div class="col">${list.length? list.map(j=>jobCard(j)).join("") : `<div class="empty">No roles match these filters yet. ${S.jobs.length?"Try loosening a filter.":"The daily auto-search will drop verified jobs here, or add one you found above."}</div>`}</div>`;
+    ${S.jobs.some(j=>["Discovered","Shortlisted","Preparing"].includes(j.stage) && !j.expired && !j.mission)?`<button class="btn ghost sm" data-act="rescore" style="margin-left:auto">${S.ui.busy.rescore?'<span class="spin dark"></span> Re-scoring…':"💚 Re-score for mission fit"}</button>`:""}</div>
+  <div class="col">${list.length? list.map(j=>jobCard(j)).join("") : (f.missionOnly && S.jobs.some(j=>["Discovered","Shortlisted","Preparing"].includes(j.stage) && !j.expired && !j.mission)) ? `<div class="empty" style="padding:26px"><div style="font-size:26px">💚</div><p style="margin:6px 0 12px"><b>Your jobs haven’t been checked for mission yet.</b><br><span class="small">Claude can look at each employer and mark the ones doing real good. New jobs from the daily search get checked automatically.</span></p><button class="btn teal" data-act="rescore">${S.ui.busy.rescore?'<span class="spin"></span> Checking…':"Check my jobs for mission fit"}</button></div>` : `<div class="empty">No roles match these filters yet. ${S.jobs.length?"Try loosening a filter.":"The daily auto-search will drop verified jobs here, or add one you found above."}</div>`}</div>`;
 }
 
 /* ===================== APPLY ===================== */
